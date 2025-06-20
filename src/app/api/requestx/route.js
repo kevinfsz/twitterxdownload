@@ -92,18 +92,22 @@ export async function GET(request) {
             tweet_media = media_urls.join(',');
         }
 
-        const card = resultTweet.card || resultTweet.tweet.card;
-        if(card && card.legacy&&card.legacy.binding_values){
-            const value = card.legacy.binding_values[0].value.string_value;
-            const valueJson = JSON.parse(value);
-            const mediaId = valueJson.component_objects.media_1.data.id;
-            const media = valueJson.media_entities[mediaId];
-            const variants = media.video_info.variants;
-            const mp4Variants = variants.filter(v => v.content_type === 'video/mp4');
-            if (mp4Variants.length > 0) {
-                // Sort by bitrate, choose highest quality
-                mp4Variants.sort((a, b) => (b.bitrate || 0) - (a.bitrate || 0));
-                tweet_media = mp4Variants[0].url;
+        const card = resultTweet.card || resultTweet.tweet?.card;
+        if(card && card.legacy && card.legacy.binding_values && card.legacy.binding_values.length > 0){
+            try {
+                const value = card.legacy.binding_values[0].value.string_value;
+                const valueJson = JSON.parse(value);
+                const mediaId = valueJson.component_objects.media_1.data.id;
+                const media = valueJson.media_entities[mediaId];
+                const variants = media.video_info.variants;
+                const mp4Variants = variants.filter(v => v.content_type === 'video/mp4');
+                if (mp4Variants.length > 0) {
+                    // Sort by bitrate, choose highest quality
+                    mp4Variants.sort((a, b) => (b.bitrate || 0) - (a.bitrate || 0));
+                    tweet_media = mp4Variants[0].url;
+                }
+            } catch (cardError) {
+                console.warn('Error processing card data:', cardError.message);
             }
         }
         
