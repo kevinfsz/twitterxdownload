@@ -20,16 +20,16 @@ export const metadata = {
   authors: [{ name: 'TwitterXDownload' }],
   robots: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
   alternates: {
-    canonical: 'https://twitterxdownload.com/',
+    canonical: 'https://ai-xdownload.xyz/',
   },
   openGraph: {
     title: 'TwitterXDownload - Free Twitter Video Downloader',
     description: 'Download Twitter videos and media content for free. No registration required.',
     type: 'website',
-    url: 'https://twitterxdownload.com',
+    url: 'https://ai-xdownload.xyz',
     siteName: 'TwitterXDownload',
     images: [{
-      url: 'https://twitterxdownload.com/images/og.png'
+      url: 'https://ai-xdownload.xyz/images/og.png'
     }]
   },
   twitter: {
@@ -37,7 +37,7 @@ export const metadata = {
     site: '@twitterxdownload',
     title: 'TwitterXDownload - Free Twitter Video Downloader',
     description: 'Download Twitter videos and media content for free. No registration required.',
-    images: ['https://twitterxdownload.com/images/og.png']
+    images: ['https://ai-xdownload.xyz/images/og.png']
   },
   icons: {
     icon: [

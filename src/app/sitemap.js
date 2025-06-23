@@ -1,5 +1,5 @@
 export default async function sitemap() {
-    const baseUrl = 'https://twitterxdownload.com';
+    const baseUrl = 'https://ai-xdownload.xyz';
 
     // 获取最新推文用于 sitemap
     const tweets = await fetch(`${baseUrl}/api/requestdb?action=all`, {
@@ -72,6 +72,154 @@ export default async function sitemap() {
             lastModified: new Date(),
             changeFrequency: 'monthly',
             priority: 0.6,
+        },
+        // SEO优化：添加教程页面到sitemap
+        {
+            url: `${baseUrl}/tutorials/iphone-twitter-video-download`,
+            lastModified: new Date(),
+            changeFrequency: 'weekly',
+            priority: 0.9,
+        },
+        {
+            url: `${baseUrl}/tutorials/mac-twitter-gif-save`,
+            lastModified: new Date(),
+            changeFrequency: 'weekly',
+            priority: 0.9,
+        },
+        {
+            url: `${baseUrl}/tutorials/chrome-extension-guide`,
+            lastModified: new Date(),
+            changeFrequency: 'weekly',
+            priority: 0.9,
+        },
+        {
+            url: `${baseUrl}/tutorials/x-video-api-docs`,
+            lastModified: new Date(),
+            changeFrequency: 'weekly',
+            priority: 0.9,
+        },
+        // 多语言版本的教程页面
+        {
+            url: `${baseUrl}/en/tutorials/iphone-twitter-video-download`,
+            lastModified: new Date(),
+            changeFrequency: 'weekly',
+            priority: 0.9,
+        },
+        {
+            url: `${baseUrl}/en/tutorials/mac-twitter-gif-save`,
+            lastModified: new Date(),
+            changeFrequency: 'weekly',
+            priority: 0.9,
+        },
+        {
+            url: `${baseUrl}/en/tutorials/chrome-extension-guide`,
+            lastModified: new Date(),
+            changeFrequency: 'weekly',
+            priority: 0.9,
+        },
+        {
+            url: `${baseUrl}/en/tutorials/x-video-api-docs`,
+            lastModified: new Date(),
+            changeFrequency: 'weekly',
+            priority: 0.9,
+        },
+        {
+            url: `${baseUrl}/zh-CN/tutorials/iphone-twitter-video-download`,
+            lastModified: new Date(),
+            changeFrequency: 'weekly',
+            priority: 0.9,
+        },
+        {
+            url: `${baseUrl}/zh-CN/tutorials/mac-twitter-gif-save`,
+            lastModified: new Date(),
+            changeFrequency: 'weekly',
+            priority: 0.9,
+        },
+        {
+            url: `${baseUrl}/zh-CN/tutorials/chrome-extension-guide`,
+            lastModified: new Date(),
+            changeFrequency: 'weekly',
+            priority: 0.9,
+        },
+        {
+            url: `${baseUrl}/zh-CN/tutorials/x-video-api-docs`,
+            lastModified: new Date(),
+            changeFrequency: 'weekly',
+            priority: 0.9,
+        },
+        // SEO优化：添加着陆页到sitemap
+        {
+            url: `${baseUrl}/landing/twitter-video-downloader`,
+            lastModified: new Date(),
+            changeFrequency: 'weekly',
+            priority: 0.9,
+        },
+        {
+            url: `${baseUrl}/landing/twitter-gif-download`,
+            lastModified: new Date(),
+            changeFrequency: 'weekly',
+            priority: 0.9,
+        },
+        {
+            url: `${baseUrl}/landing/x-video-download`,
+            lastModified: new Date(),
+            changeFrequency: 'weekly',
+            priority: 0.9,
+        },
+        {
+            url: `${baseUrl}/landing/mobile-video-download`,
+            lastModified: new Date(),
+            changeFrequency: 'weekly',
+            priority: 0.9,
+        },
+        // 多语言版本的着陆页
+        {
+            url: `${baseUrl}/en/landing/twitter-video-downloader`,
+            lastModified: new Date(),
+            changeFrequency: 'weekly',
+            priority: 0.9,
+        },
+        {
+            url: `${baseUrl}/en/landing/twitter-gif-download`,
+            lastModified: new Date(),
+            changeFrequency: 'weekly',
+            priority: 0.9,
+        },
+        {
+            url: `${baseUrl}/en/landing/x-video-download`,
+            lastModified: new Date(),
+            changeFrequency: 'weekly',
+            priority: 0.9,
+        },
+        {
+            url: `${baseUrl}/en/landing/mobile-video-download`,
+            lastModified: new Date(),
+            changeFrequency: 'weekly',
+            priority: 0.9,
+        },
+        {
+            url: `${baseUrl}/zh-CN/landing/twitter-video-downloader`,
+            lastModified: new Date(),
+            changeFrequency: 'weekly',
+            priority: 0.9,
+        },
+        {
+            url: `${baseUrl}/zh-CN/landing/twitter-gif-download`,
+            lastModified: new Date(),
+            changeFrequency: 'weekly',
+            priority: 0.9,
+        },
+        {
+            url: `${baseUrl}/zh-CN/landing/x-video-download`,
+            lastModified: new Date(),
+            changeFrequency: 'weekly',
+            priority: 0.9,
+        },
+        {
+            url: `${baseUrl}/zh-CN/landing/mobile-video-download`,
+            lastModified: new Date(),
+            changeFrequency: 'weekly',
+            priority: 0.9,
         },
     ];
 
