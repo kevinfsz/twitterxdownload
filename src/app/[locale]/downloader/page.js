@@ -12,6 +12,18 @@ import { translate } from '@/lib/translator';
 import ConfirmModal from '@/app/components/ui/ConfirmModal';
 import { useErrorHandler, ErrorDisplay, RetryStatus, ERROR_TYPES } from '@/app/components/ui/ErrorHandler';
 import { DownloadProgress, PageLoading } from '@/app/components/ui/LoadingStates';
+import { generateSEOMetadata } from '@/lib/seo';
+
+// 动态生成SEO元数据
+export async function generateMetadata({ params }) {
+  const locale = params?.locale || 'en';
+  
+  return generateSEOMetadata({
+    page: 'downloader',
+    locale: locale,
+    pathname: `/${locale}/downloader`
+  });
+}
 
 export default function Downloader({ params: { locale } }) {
     const searchParams = useSearchParams();

@@ -9,6 +9,7 @@ import {Providers} from "../providers";
 import MyNavbar from '../components/ui/MyNavbar';
 import MyFooter from '../components/ui/MyFooter';
 import PWAInstaller from '../components/ui/PWAInstaller';
+import StructuredData from '../components/seo/StructuredData';
 
 
 export const metadata = {
@@ -70,6 +71,7 @@ export default function RootLayout({ children, params }) {
             <GoogleAdsense />
             <GoogleAnalytics />
             <UmamiAnalytics />
+            <StructuredData locale={locale} pageType="website" />
             <script
               dangerouslySetInnerHTML={{
                 __html: `

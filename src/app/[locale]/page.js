@@ -2,9 +2,22 @@ import { getTranslation, isChinese } from '@/lib/i18n';
 import HotTweets from '@/app/components/ui/HotTweets';
 import FAQ from '@/app/components/ui/FAQ';
 import HotCreators from '@/app/components/ui/HotCreators';
+import StructuredData from '@/app/components/seo/StructuredData';
 import Hero from '@/app/components/ui/Hero';
 import { redirect } from 'next/navigation';
+import { generateSEOMetadata } from '@/lib/seo';
 import { headers } from 'next/headers'
+
+// 动态生成SEO元数据
+export async function generateMetadata({ params }) {
+  const locale = params?.locale || 'en';
+  
+  return generateSEOMetadata({
+    page: 'homepage',
+    locale: locale,
+    pathname: `/${locale}`
+  });
+}
 
 export default async function Home({ params: { locale } }) {
   const t = function (key) {
