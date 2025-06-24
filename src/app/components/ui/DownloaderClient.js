@@ -1,11 +1,10 @@
- // DownloaderClient.js - 客户端下载器组件
+// DownloaderClient.js - 客户端下载器组件
 "use client";
 
 import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useDisclosure } from "@heroui/react";
 import { getTranslation } from '@/lib/i18n';
-import { parseTweetData } from '@/lib/parser';
 import { translate } from '@/lib/translator';
 import ConfirmModal from '@/app/components/ui/ConfirmModal';
 import { useErrorHandler, ErrorDisplay, RetryStatus, ERROR_TYPES } from '@/app/components/ui/ErrorHandler';
@@ -51,7 +50,7 @@ export default function DownloaderClient({ locale }) {
         }
     };
 
-    const parseTweetData = (data) => {
+    const parseLocalTweetData = (data) => {
         const tweets = [];
         
         if (data.legacy) {
@@ -146,7 +145,7 @@ export default function DownloaderClient({ locale }) {
             setDownloadProgress({ progress: 80, status: 'processing', fileName: 'Tweet data' });
             
             setTweetData(data.data);
-            const tempOriginTweets = parseTweetData(data.data);
+            const tempOriginTweets = parseLocalTweetData(data.data);
             setOriginTweets(tempOriginTweets);
 
             const tempTweets = tempOriginTweets.map((tweet) => {
