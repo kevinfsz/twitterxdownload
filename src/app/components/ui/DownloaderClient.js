@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useDisclosure } from "@heroui/react";
 import { getTranslation } from '@/lib/i18n';
+import { parseTweetData } from '@/lib/parser';
 import { translate } from '@/lib/translator';
 import ConfirmModal from '@/app/components/ui/ConfirmModal';
 import { useErrorHandler, ErrorDisplay, RetryStatus, ERROR_TYPES } from '@/app/components/ui/ErrorHandler';
@@ -48,47 +49,6 @@ export default function DownloaderClient({ locale }) {
         } catch (error) {
             console.error('Failed to fetch API count:', error);
         }
-    };
-
-    const parseLocalTweetData = (data) => {
-        const tweets = [];
-        
-        if (data.legacy) {
-            const legacy = data.legacy;
-            const medias = [];
-            
-            if (legacy.entities && legacy.entities.media) {
-                legacy.entities.media.forEach((media) => {
-                    if (media.type === 'photo') {
-                        medias.push({
-                            type: 'photo',
-                            url: media.media_url_https,
-                            preview_url: media.media_url_https
-                        });
-                    } else if (media.type === 'video' || media.type === 'animated_gif') {
-                        const variants = media.video_info?.variants || [];
-                        const mp4Variant = variants
-                            .filter(v => v.content_type === 'video/mp4')
-                            .sort((a, b) => (b.bitrate || 0) - (a.bitrate || 0))[0];
-                        
-                        if (mp4Variant) {
-                            medias.push({
-                                type: media.type,
-                                url: mp4Variant.url,
-                                preview_url: media.media_url_https
-                            });
-                        }
-                    }
-                });
-            }
-            
-            tweets.push({
-                text: legacy.full_text || legacy.text || '',
-                medias: medias
-            });
-        }
-        
-        return tweets;
     };
 
     const fetchTweet = async (url) => {
@@ -145,7 +105,7 @@ export default function DownloaderClient({ locale }) {
             setDownloadProgress({ progress: 80, status: 'processing', fileName: 'Tweet data' });
             
             setTweetData(data.data);
-            const tempOriginTweets = parseLocalTweetData(data.data);
+            const tempOriginTweets = parseTweetData(data.data);
             setOriginTweets(tempOriginTweets);
 
             const tempTweets = tempOriginTweets.map((tweet) => {
