@@ -1,4 +1,4 @@
-import { getTranslation } from '@/lib/i18n';
+import { getTranslation, isChinese } from '@/lib/i18n';
 import { Link,Chip } from '@heroui/react';
 
 export default function MyFooter({ locale = 'en' }) {
@@ -19,10 +19,10 @@ export default function MyFooter({ locale = 'en' }) {
                 <div>
                     <p className="font-bold mb-2">{t('Download Tools')}</p>
                     <ul className="flex flex-col gap-1">
-                        <li><Link href={`/${locale}/landing/twitter-video-downloader`} className="text-sm hover:text-primary">{locale === 'zh' ? 'Twitter视频下载器' : 'Twitter Video Downloader'}</Link></li>
-                        <li><Link href={`/${locale}/landing/twitter-gif-download`} className="text-sm hover:text-primary">{locale === 'zh' ? 'Twitter GIF下载' : 'Twitter GIF Download'}</Link></li>
-                        <li><Link href={`/${locale}/landing/x-video-download`} className="text-sm hover:text-primary">{locale === 'zh' ? 'X视频下载器' : 'X Video Downloader'}</Link></li>
-                        <li><Link href={`/${locale}/landing/mobile-video-download`} className="text-sm hover:text-primary">{locale === 'zh' ? '移动端下载' : 'Mobile Downloader'}</Link></li>
+                        <li><Link href={`/${locale}/landing/twitter-video-downloader`} className="text-sm hover:text-primary">{isChinese(locale) ? 'Twitter视频下载器' : 'Twitter Video Downloader'}</Link></li>
+                        <li><Link href={`/${locale}/landing/twitter-gif-download`} className="text-sm hover:text-primary">{isChinese(locale) ? 'Twitter GIF下载' : 'Twitter GIF Download'}</Link></li>
+                        <li><Link href={`/${locale}/landing/x-video-download`} className="text-sm hover:text-primary">{isChinese(locale) ? 'X视频下载器' : 'X Video Downloader'}</Link></li>
+                        <li><Link href={`/${locale}/landing/mobile-video-download`} className="text-sm hover:text-primary">{isChinese(locale) ? '移动端下载' : 'Mobile Downloader'}</Link></li>
                     </ul>
                 </div>
             </div>

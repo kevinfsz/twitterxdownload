@@ -12,20 +12,29 @@ export default async function HotTweets({ locale = 'en' }) {
     const host = headersList.get('host')
     const protocol = headersList.get('x-forwarded-proto') || 'http'
     const baseUrl = `${protocol}://${host}`
-    const tweetsResp = await fetch(`${baseUrl}/api/requestdb?action=recent`,{
-        cache: 'no-store'
-    });
-    const tweetsData = await tweetsResp.json();
+    let totalCount = 0;
+    let tweets = [[], [], []];
     
-    const totalCount = tweetsData.count;
-
-    const tweets = [[], [], []];
-    tweetsData.data.forEach((tweet, index) => {
-        tweets[index % 3].push({
-            ...tweet,
-            tweet_media: tweet.tweet_media ? tweet.tweet_media.split(',') : []
+    try {
+        const tweetsResp = await fetch(`${baseUrl}/api/requestdb?action=recent`,{
+            cache: 'no-store'
         });
-    });
+        const tweetsData = await tweetsResp.json();
+        
+        totalCount = tweetsData?.count || 0;
+        const tweetsArray = tweetsData?.data || [];
+
+        tweetsArray.forEach((tweet, index) => {
+            tweets[index % 3].push({
+                ...tweet,
+                tweet_media: tweet.tweet_media ? tweet.tweet_media.split(',') : []
+            });
+        });
+    } catch (error) {
+        console.error('Failed to fetch tweets:', error);
+        totalCount = 0;
+        tweets = [[], [], []];
+    }
 
     return (
         <>

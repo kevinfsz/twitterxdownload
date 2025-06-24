@@ -79,3 +79,8 @@ export function getTranslation(locale, key) {
   return result;
 }
 
+// 辅助函数：检查是否为中文语言
+export function isChinese(locale) {
+  return locale === 'zh-CN' || locale === 'zh-HK';
+}
+

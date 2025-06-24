@@ -12,16 +12,22 @@ export default async function HotCreators({ locale = 'en' }) {
     const host = headersList.get('host')
     const protocol = headersList.get('x-forwarded-proto') || 'http'
     const baseUrl = `${protocol}://${host}`
-    const creatorsResp = await fetch(`${baseUrl}/api/requestdb?action=creators`,{
-        cache: 'no-store'
-    });
-    const creatorsData = await creatorsResp.json();
-    const creators = creatorsData.data;
+    let creators = [];
+    try {
+        const creatorsResp = await fetch(`${baseUrl}/api/requestdb?action=creators`,{
+            cache: 'no-store'
+        });
+        const creatorsData = await creatorsResp.json();
+        creators = creatorsData?.data || [];
+    } catch (error) {
+        console.error('Failed to fetch creators:', error);
+        creators = [];
+    }
 
     return (
         <>
             <ScrollShadow className="w-full flex gap-5" orientation="horizontal">
-                {creators.map((creator) => (
+                {creators && creators.length > 0 ? creators.map((creator) => (
                     <Card
                         shadow="none"
                         disableRipple
@@ -56,7 +62,11 @@ export default async function HotCreators({ locale = 'en' }) {
                                 </Button>
                         </CardFooter>
                     </Card>
-                ))}
+                )) : (
+                    <div className="text-center text-gray-500 p-4">
+                        {t('No creators found')}
+                    </div>
+                )}
             </ScrollShadow>
         </>
     );

@@ -11,7 +11,7 @@ import {
   DropdownItem,
   Button,
 } from "@heroui/react";
-import { getTranslation } from "@/lib/i18n";
+import { getTranslation, isChinese } from "@/lib/i18n";
 import Image from "next/image";
 import LanguageSwitcher from "./LanguageSwitcher"; // 新的客户端组件
 import { ThemeSwitcher } from "./ThemeSwitcher";
@@ -54,22 +54,22 @@ export default function MyNavbar({ locale = 'en' }) {
             <DropdownMenu aria-label="Download Tools">
               <DropdownItem key="twitter-video-downloader">
                 <Link href={`/${locale}/landing/twitter-video-downloader`} className="w-full text-foreground">
-                  {locale === 'zh' ? 'Twitter视频下载器' : 'Twitter Video Downloader'}
+                  {isChinese(locale) ? 'Twitter视频下载器' : 'Twitter Video Downloader'}
                 </Link>
               </DropdownItem>
               <DropdownItem key="twitter-gif-download">
                 <Link href={`/${locale}/landing/twitter-gif-download`} className="w-full text-foreground">
-                  {locale === 'zh' ? 'Twitter GIF下载' : 'Twitter GIF Download'}
+                  {isChinese(locale) ? 'Twitter GIF下载' : 'Twitter GIF Download'}
                 </Link>
               </DropdownItem>
               <DropdownItem key="x-video-download">
                 <Link href={`/${locale}/landing/x-video-download`} className="w-full text-foreground">
-                  {locale === 'zh' ? 'X视频下载器' : 'X Video Downloader'}
+                  {isChinese(locale) ? 'X视频下载器' : 'X Video Downloader'}
                 </Link>
               </DropdownItem>
               <DropdownItem key="mobile-video-download">
                 <Link href={`/${locale}/landing/mobile-video-download`} className="w-full text-foreground">
-                  {locale === 'zh' ? '移动端下载' : 'Mobile Downloader'}
+                  {isChinese(locale) ? '移动端下载' : 'Mobile Downloader'}
                 </Link>
               </DropdownItem>
             </DropdownMenu>
