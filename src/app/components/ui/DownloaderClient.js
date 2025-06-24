@@ -24,6 +24,9 @@ export default function DownloaderClient({ locale }) {
     const [tweetData, setTweetData] = useState(null);
     const [originTweets, setOriginTweets] = useState([]);
     const [tweets, setTweets] = useState([]);
+    
+    // 添加进度显示状态
+    const [downloadProgress, setDownloadProgress] = useState(null);
 
     const t = function (key) {
         return getTranslation(locale, key);
@@ -45,15 +48,25 @@ export default function DownloaderClient({ locale }) {
 
     let retryTimes = 0;
     const fetchTweet = async (url) => {
+        // 开始显示进度
+        setDownloadProgress({ progress: 10, status: 'fetching', fileName: 'Tweet data' });
+        
         const tweet_id = url.match(/status\/(\d{19})/)?.[1] || url.split('/').pop();
+        
+        // 更新进度
+        setDownloadProgress({ progress: 30, status: 'fetching', fileName: 'Tweet data' });
+        
         const response = await fetch(`/api/requestx?tweet_id=${tweet_id}`);
         const data = await response.json();
         
+        // 更新进度
+        setDownloadProgress({ progress: 60, status: 'processing', fileName: 'Tweet data' });
 
         if(!data.success){
             // 如果请求失败,最多重试3次
             // 每次重试的间隔时间需要随机在 1000-1500ms 之间
             if(retryTimes < 3){
+                setDownloadProgress({ progress: 20, status: 'retrying', fileName: `Retry ${retryTimes + 1}/3` });
                 setTimeout(() => {
                     console.log("retry fetch " + (retryTimes+1));
                     fetchTweet(url);
@@ -62,9 +75,17 @@ export default function DownloaderClient({ locale }) {
             }else{
                 retryTimes = 0;
                 setIsLoading(false);
+                setDownloadProgress({ progress: 100, status: 'error', fileName: 'Failed to fetch tweet' });
+                // 3秒后隐藏错误提示
+                setTimeout(() => {
+                    setDownloadProgress(null);
+                }, 3000);
             }
             return;
         }
+
+        // 更新进度
+        setDownloadProgress({ progress: 80, status: 'processing', fileName: 'Tweet data' });
 
         setIsLoading(false);
         setTweetData(data.data);
@@ -84,6 +105,14 @@ export default function DownloaderClient({ locale }) {
         });
         setTweets(tempTweets);
         console.log(tempTweets);
+
+        // 完成进度
+        setDownloadProgress({ progress: 100, status: 'complete', fileName: 'Tweet data loaded' });
+        
+        // 延迟隐藏进度条
+        setTimeout(() => {
+            setDownloadProgress(null);
+        }, 1500);
 
         fetchRemainApiCount();
 
@@ -206,6 +235,35 @@ export default function DownloaderClient({ locale }) {
                         }}
                     />
                 </div>
+                
+                {/* 进度显示组件 */}
+                {downloadProgress && (
+                    <div className="w-full max-w-md mx-auto mb-4 p-4 bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg">
+                        <p className="font-medium text-gray-800 dark:text-gray-200">{downloadProgress.fileName}</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                            {t('Status')}: {
+                                downloadProgress.status === 'fetching' ? t('Fetching') :
+                                downloadProgress.status === 'processing' ? t('Processing') :
+                                downloadProgress.status === 'retrying' ? t('Retrying') :
+                                downloadProgress.status === 'complete' ? t('Complete') :
+                                downloadProgress.status === 'error' ? t('Error') :
+                                downloadProgress.status
+                            }
+                        </p>
+                        <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+                            <div 
+                                className={`h-2.5 rounded-full transition-all duration-300 ${
+                                    downloadProgress.status === 'error' ? 'bg-red-600' :
+                                    downloadProgress.status === 'complete' ? 'bg-green-600' :
+                                    'bg-blue-600'
+                                }`}
+                                style={{ width: `${downloadProgress.progress}%` }}
+                            ></div>
+                        </div>
+                        <p className="text-sm text-gray-600 dark:text-gray-400 text-right mt-1">{downloadProgress.progress}%</p>
+                    </div>
+                )}
+                
                 <div></div>
             </div>
             <div className="flex gap-4 justify-center items-start">
