@@ -23,7 +23,7 @@ export default function MyNavbar({ locale = 'en' }) {
       wrapper: "page-container"
     }}>
       <NavbarBrand>
-        <Link href="/" className="text-foreground">
+        <Link href={`/${locale}`} className="text-foreground">
           <Image src="/images/logo.png" alt="TwitterXDownload" width={32} height={32} />
           <p className="font-bold text-inherit mx-3 text-2xl">
             {t('TwitterXDownload')}
@@ -32,12 +32,12 @@ export default function MyNavbar({ locale = 'en' }) {
       </NavbarBrand>
       <NavbarContent className="hidden md:flex gap-6" justify="center">
         {process.env.NEXT_PUBLIC_SEARCH_ENABLED != 0 && <NavbarItem>
-          <Link color="foreground" href="/tweets">
+          <Link color="foreground" href={`/${locale}/tweets`}>
           {t('Search Tweets')}
           </Link>
         </NavbarItem>}
         <NavbarItem>
-          <Link color="foreground" href="/downloader">
+          <Link color="foreground" href={`/${locale}/downloader`}>
           {t('Downloader')}
           </Link>
         </NavbarItem>

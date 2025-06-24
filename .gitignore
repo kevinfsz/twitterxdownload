@@ -155,3 +155,6 @@ task-fix-tools-menu-error/fix-locale-checks.js
 project-improvement-summary.md
 todo.md
 package-lock.json
+NODEJS_UPGRADE.md
+test-fix.bat
+test-fix.sh

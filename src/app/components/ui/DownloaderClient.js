@@ -6,10 +6,8 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useDisclosure } from "@heroui/react";
 import { getTranslation } from '@/lib/i18n';
 import { parseTweetData } from '@/lib/parser';
-import { translate } from '@/lib/translator';
 import ConfirmModal from '@/app/components/ui/ConfirmModal';
-import { useErrorHandler, ErrorDisplay, RetryStatus, ERROR_TYPES } from '@/app/components/ui/ErrorHandler';
-import { DownloadProgress, PageLoading } from '@/app/components/ui/LoadingStates';
+// 暂时移除复杂的错误处理导入，使用简化版本
 import Hero from '@/app/components/ui/Hero';
 import TweetCard from '@/app/components/ui/TweetCard';
 
@@ -22,8 +20,10 @@ export default function DownloaderClient({ locale }) {
     const [remainApiCount, setRemainApiCount] = useState(0);
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     
-    // 错误处理
-    const { error, isRetrying, retryCount, handleError, clearError, retry } = useErrorHandler(locale);
+    // 简化的错误处理
+    const [error, setError] = useState(null);
+    const [isRetrying, setIsRetrying] = useState(false);
+    const [retryCount, setRetryCount] = useState(0);
     
     // 下载进度
     const [downloadProgress, setDownloadProgress] = useState(null);
@@ -39,6 +39,20 @@ export default function DownloaderClient({ locale }) {
 
     const t = function (key) {
         return getTranslation(locale, key);
+    };
+
+    const handleError = (errorType, originalError = null) => {
+        console.error('Error occurred:', { errorType, originalError });
+        setError({
+            type: errorType,
+            originalError,
+            timestamp: new Date().toISOString()
+        });
+    };
+
+    const clearError = () => {
+        setError(null);
+        setRetryCount(0);
     };
 
     const fetchRemainApiCount = async () => {
@@ -60,13 +74,13 @@ export default function DownloaderClient({ locale }) {
             // 验证URL格式
             const twitterUrlPattern = /^https?:\/\/(twitter\.com|x\.com)\/[a-zA-Z0-9_]+\/status\/\d+/;
             if (!twitterUrlPattern.test(url)) {
-                handleError(ERROR_TYPES.INVALID_URL);
+                handleError('invalid_url');
                 return;
             }
             
             const tweet_id = url.match(/status\/(\d{19})/)?.[1] || url.split('/').pop();
             if (!tweet_id) {
-                handleError(ERROR_TYPES.INVALID_URL);
+                handleError('invalid_url');
                 return;
             }
             
@@ -76,13 +90,13 @@ export default function DownloaderClient({ locale }) {
             
             if (!response.ok) {
                 if (response.status === 404) {
-                    handleError(ERROR_TYPES.NOT_FOUND);
+                    handleError('not_found');
                 } else if (response.status === 429) {
-                    handleError(ERROR_TYPES.RATE_LIMIT);
+                    handleError('rate_limit');
                 } else if (response.status >= 500) {
-                    handleError(ERROR_TYPES.SERVER_ERROR);
+                    handleError('server_error');
                 } else {
-                    handleError(ERROR_TYPES.NETWORK);
+                    handleError('network');
                 }
                 return;
             }
@@ -93,11 +107,11 @@ export default function DownloaderClient({ locale }) {
             if (!data.success) {
                 // 根据错误消息确定错误类型
                 if (data.message?.includes('not found')) {
-                    handleError(ERROR_TYPES.NOT_FOUND);
+                    handleError('not_found');
                 } else if (data.message?.includes('rate limit')) {
-                    handleError(ERROR_TYPES.RATE_LIMIT);
+                    handleError('rate_limit');
                 } else {
-                    handleError(ERROR_TYPES.SERVER_ERROR);
+                    handleError('server_error');
                 }
                 return;
             }
@@ -133,9 +147,9 @@ export default function DownloaderClient({ locale }) {
         } catch (err) {
             console.error('Fetch tweet error:', err);
             if (err.name === 'TypeError' && err.message.includes('fetch')) {
-                handleError(ERROR_TYPES.NETWORK);
+                handleError('network');
             } else {
-                handleError(ERROR_TYPES.UNKNOWN, err);
+                handleError('unknown', err);
             }
         } finally {
             setIsLoading(false);
@@ -144,8 +158,12 @@ export default function DownloaderClient({ locale }) {
     
     // 重试函数
     const handleRetry = () => {
-        if (url) {
-            retry(() => fetchTweet(url));
+        if (url && retryCount < 3) {
+            setIsRetrying(true);
+            setRetryCount(prev => prev + 1);
+            fetchTweet(url).finally(() => {
+                setIsRetrying(false);
+            });
         }
     };
 
@@ -205,30 +223,51 @@ export default function DownloaderClient({ locale }) {
             <div className="flex flex-col lg:flex-row gap-8">
                 <div className="lg:w-2/3">
                     {/* 错误显示 */}
-                    <ErrorDisplay 
-                        error={error}
-                        onRetry={handleRetry}
-                        onDismiss={clearError}
-                        locale={locale}
-                    />
+                    {error && (
+                        <div className="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
+                            <h4 className="font-bold">{t('Error')}</h4>
+                            <p>{t('An error occurred')}: {error.type}</p>
+                            <button 
+                                onClick={handleRetry}
+                                disabled={retryCount >= 3}
+                                className="mt-2 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 disabled:opacity-50"
+                            >
+                                {t('Try Again')} ({retryCount}/3)
+                            </button>
+                            <button 
+                                onClick={clearError}
+                                className="mt-2 ml-2 px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600"
+                            >
+                                {t('Dismiss')}
+                            </button>
+                        </div>
+                    )}
                     
                     {/* 重试状态 */}
-                    <RetryStatus 
-                        isRetrying={isRetrying}
-                        retryCount={retryCount}
-                        maxRetries={3}
-                        locale={locale}
-                    />
+                    {isRetrying && (
+                        <div className="mb-4 p-4 bg-blue-100 border border-blue-400 text-blue-700 rounded">
+                            <p>{t('Retrying...')} ({retryCount}/3)</p>
+                            <div className="w-full bg-blue-200 rounded-full h-2.5 mt-2">
+                                <div 
+                                    className="bg-blue-600 h-2.5 rounded-full animate-pulse" 
+                                    style={{ width: `${(retryCount / 3) * 100}%` }}
+                                ></div>
+                            </div>
+                        </div>
+                    )}
                     
                     {/* 下载进度 */}
                     {downloadProgress && (
-                        <div className="mb-4">
-                            <DownloadProgress 
-                                progress={downloadProgress.progress}
-                                status={downloadProgress.status}
-                                fileName={downloadProgress.fileName}
-                                locale={locale}
-                            />
+                        <div className="mb-4 p-4 bg-gray-100 border border-gray-300 rounded">
+                            <p className="font-medium">{downloadProgress.fileName}</p>
+                            <p className="text-sm text-gray-600">{t('Status')}: {downloadProgress.status}</p>
+                            <div className="w-full bg-gray-200 rounded-full h-2.5 mt-2">
+                                <div 
+                                    className="bg-blue-600 h-2.5 rounded-full transition-all duration-300" 
+                                    style={{ width: `${downloadProgress.progress}%` }}
+                                ></div>
+                            </div>
+                            <p className="text-sm text-gray-600 text-right mt-1">{downloadProgress.progress}%</p>
                         </div>
                     )}
                     
