@@ -1,28 +1,64 @@
 'use client';
 import { Card, CardHeader, CardBody, CardFooter, Avatar,Chip,Button,Dropdown, DropdownTrigger, DropdownMenu, DropdownItem,Input } from "@heroui/react";
 import { useState } from "react";
-import { RiCloseCircleFill,RiArrowDropDownLine,RiMoreFill } from "@remixicon/react"
+import { RiCloseCircleFill,RiArrowDropDownLine,RiMoreFill,RiDownloadLine } from "@remixicon/react"
 import { getTranslation } from "@/lib/i18n";
 import ConfirmModal from "./ConfirmModal";
 import Link from "next/link";
 
-export default function TweetCard({ tweet,enableEdit = false,locale='en', className,onDeleteTweet,onInsertTweet,onAddMedia,onDeleteMedia,onUpdateText }) {
+export default function TweetCard({ tweet,enableEdit = false,locale='en', className,onDeleteTweet,onInsertTweet,onAddMedia,onDeleteMedia,onUpdateText,onDownload }) {
     
     const t = function (key) {
         return getTranslation(locale, key);
     }
 
-    const [textLength, setTextLength] = useState(tweet.tweet_text.length);
+    const [textLength, setTextLength] = useState(tweet.tweet_text ? tweet.tweet_text.length : 0);
 
-    const getMediaDom = (mediaUrl) => {
-        if (mediaUrl.includes('.mp4') || mediaUrl.startsWith('data:video/mp4')) {
-            return (
-                <video controls src={mediaUrl} alt="Tweet media" className="w-full h-full rounded-lg object-cover" />
-            )
-        }
-        return (
+    const getMediaDom = (mediaUrl, index) => {
+        const mediaElement = mediaUrl.includes('.mp4') || mediaUrl.startsWith('data:video/mp4') ? (
+            <video controls src={mediaUrl} alt="Tweet media" className="w-full h-full rounded-lg object-cover" />
+        ) : (
             <img src={mediaUrl} alt="Tweet media" className="w-full h-full rounded-lg object-cover" />
-         )
+        );
+
+        // 如果有下载函数，添加下载按钮
+        if (onDownload) {
+            return (
+                <div className="relative w-full h-full group">
+                    {mediaElement}
+                    <Button
+                        isIconOnly
+                        size="sm"
+                        className="absolute top-2 left-2 opacity-0 group-hover:opacity-100 transition-opacity bg-black/50 backdrop-blur-sm"
+                        onPress={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            onDownload(index);
+                        }}
+                    >
+                        <RiDownloadLine className="text-white" />
+                    </Button>
+                    {enableEdit && (
+                        <RiCloseCircleFill 
+                            onClick={() => handleDeleteMedia(index)} 
+                            className="absolute z-10 top-2 right-2 text-white cursor-pointer bg-black rounded-full" 
+                        />
+                    )}
+                </div>
+            );
+        }
+
+        return (
+            <div className="relative w-full h-full">
+                {mediaElement}
+                {enableEdit && (
+                    <RiCloseCircleFill 
+                        onClick={() => handleDeleteMedia(index)} 
+                        className="absolute z-10 top-2 right-2 text-white cursor-pointer bg-black rounded-full" 
+                    />
+                )}
+            </div>
+        );
     }
 
     const handleDeleteMedia = (index) => {
@@ -111,12 +147,12 @@ export default function TweetCard({ tweet,enableEdit = false,locale='en', classN
         <Card
             shadow="none"
             isHoverable={!enableEdit}
-            isPressable={!enableEdit}
+            isPressable={!enableEdit && !onDownload}
             disableRipple={true}
             className={`tweet-card w-full p-2 cursor-pointer select-none border-foreground/10 border-[1px] rounded-2xl ${className}`}
             key={tweet.tweet_id}>
-            <CardHeader as={!enableEdit ? Link : 'div'}
-            href={`/tweets/${tweet.tweet_id}`} className="flex justify-between gap-4">
+            <CardHeader as={!enableEdit && !onDownload ? Link : 'div'}
+            href={!enableEdit && !onDownload ? `/tweets/${tweet.tweet_id}` : undefined} className="flex justify-between gap-4">
                 <Avatar
                     className="flex-shrink-0"
                     isBordered
@@ -133,8 +169,8 @@ export default function TweetCard({ tweet,enableEdit = false,locale='en', classN
                         <Chip color="default" variant="flat" size="sm" className="flex items-center gap-1 pl-2" endContent={<RiArrowDropDownLine />}>{tweet.tweet_threadscount}</Chip>
                     </div>}
             </CardHeader>
-            <CardBody as={!enableEdit ? Link : 'div'}
-            href={`/tweets/${tweet.tweet_id}`} className="text-small text-default-400 pb-0">
+            <CardBody as={!enableEdit && !onDownload ? Link : 'div'}
+            href={!enableEdit && !onDownload ? `/tweets/${tweet.tweet_id}` : undefined} className="text-small text-default-400 pb-0">
                 <pre className={`whitespace-pre-wrap ${enableEdit ? "border-[1px] border-primary p-2 rounded-md text-foreground" : ""}`} contentEditable={enableEdit} onInput={(e) => {
                     setTextLength(e.target.innerText.length);
                 }} 
@@ -152,39 +188,33 @@ export default function TweetCard({ tweet,enableEdit = false,locale='en', classN
                 {tweet.tweet_media && tweet.tweet_media.length > 0 && (
                     <div className="mt-3">
                         {tweet.tweet_media.length === 1 && (
-                            <div className="w-full h-48 relative">
-                                {enableEdit && <RiCloseCircleFill onClick={() => handleDeleteMedia(0)} className="absolute z-10 top-2 right-2 text-white cursor-pointer bg-black rounded-full" />}
-                                {getMediaDom(tweet.tweet_media[0])}
+                            <div className="w-full h-48">
+                                {getMediaDom(tweet.tweet_media[0], 0)}
                             </div>
                         )}
 
                         {tweet.tweet_media.length === 2 && (
                             <div className="flex gap-1">
-                                <div className="w-1/2 h-48 relative">
-                                    {enableEdit && <RiCloseCircleFill onClick={() => handleDeleteMedia(0)} className="absolute z-10 top-2 right-2 text-white cursor-pointer bg-black rounded-full" />}
-                                    {getMediaDom(tweet.tweet_media[0])}
+                                <div className="w-1/2 h-48">
+                                    {getMediaDom(tweet.tweet_media[0], 0)}
                                 </div>
-                                <div className="w-1/2 h-48 relative">
-                                    {enableEdit && <RiCloseCircleFill onClick={() => handleDeleteMedia(1)} className="absolute z-10 top-2 right-2 text-white cursor-pointer bg-black rounded-full" />}
-                                    {getMediaDom(tweet.tweet_media[1])}
+                                <div className="w-1/2 h-48">
+                                    {getMediaDom(tweet.tweet_media[1], 1)}
                                 </div>
                             </div>
                         )}
 
                         {tweet.tweet_media.length === 3 && (
                             <div className="flex gap-1 h-52">
-                                <div className="w-1/2 h-full relative">
-                                    {enableEdit && <RiCloseCircleFill onClick={() => handleDeleteMedia(0)} className="absolute z-10 top-2 right-2 text-white cursor-pointer bg-black rounded-full" />}
-                                    {getMediaDom(tweet.tweet_media[0])}
+                                <div className="w-1/2 h-full">
+                                    {getMediaDom(tweet.tweet_media[0], 0)}
                                 </div>
                                 <div className="w-1/2 flex h-full flex-col gap-1 items-between">
-                                    <div className="flex-1 h-24 relative">
-                                        {enableEdit && <RiCloseCircleFill onClick={() => handleDeleteMedia(1)} className="absolute z-10 top-2 right-2 text-white cursor-pointer bg-black rounded-full" />}
-                                        {getMediaDom(tweet.tweet_media[1])}
+                                    <div className="flex-1 h-24">
+                                        {getMediaDom(tweet.tweet_media[1], 1)}
                                     </div>
-                                    <div className="flex-1 h-24 relative">
-                                        {enableEdit && <RiCloseCircleFill onClick={() => handleDeleteMedia(2)} className="absolute z-10 top-2 right-2 text-white cursor-pointer bg-black rounded-full" />}
-                                        {getMediaDom(tweet.tweet_media[2])}
+                                    <div className="flex-1 h-24">
+                                        {getMediaDom(tweet.tweet_media[2], 2)}
                                     </div>
                                 </div>
                                 
@@ -194,23 +224,19 @@ export default function TweetCard({ tweet,enableEdit = false,locale='en', classN
                         {tweet.tweet_media.length === 4 && (
                             <div className="flex h-52 gap-1">
                                 <div className="w-1/2 flex flex-col h-full gap-1 items-between">
-                                    <div className="h-24 flex-1 relative">
-                                        {enableEdit && <RiCloseCircleFill onClick={() => handleDeleteMedia(0)} className="absolute z-10 top-2 right-2 text-white cursor-pointer bg-black rounded-full" />}
-                                        {getMediaDom(tweet.tweet_media[0])}
+                                    <div className="h-24 flex-1">
+                                        {getMediaDom(tweet.tweet_media[0], 0)}
                                     </div>
-                                    <div className="h-24 flex-1 relative">
-                                        {enableEdit && <RiCloseCircleFill onClick={() => handleDeleteMedia(1)} className="absolute z-10 top-2 right-2 text-white cursor-pointer bg-black rounded-full" />}
-                                        {getMediaDom(tweet.tweet_media[1])}
+                                    <div className="h-24 flex-1">
+                                        {getMediaDom(tweet.tweet_media[1], 1)}
                                     </div>
                                 </div>
                                 <div className="w-1/2 flex flex-col h-full gap-1 items-between">
-                                    <div className="h-24 flex-1 relative">
-                                        {enableEdit && <RiCloseCircleFill onClick={() => handleDeleteMedia(2)} className="absolute z-10 top-2 right-2 text-white cursor-pointer bg-black rounded-full" />}
-                                        {getMediaDom(tweet.tweet_media[2])}
+                                    <div className="h-24 flex-1">
+                                        {getMediaDom(tweet.tweet_media[2], 2)}
                                     </div>
-                                    <div className="h-24 flex-1 relative">
-                                        {enableEdit && <RiCloseCircleFill onClick={() => handleDeleteMedia(3)} className="absolute z-10 top-2 right-2 text-white cursor-pointer bg-black rounded-full" />}
-                                        {getMediaDom(tweet.tweet_media[3])}
+                                    <div className="h-24 flex-1">
+                                        {getMediaDom(tweet.tweet_media[3], 3)}
                                     </div>
                                 </div>
                             </div>

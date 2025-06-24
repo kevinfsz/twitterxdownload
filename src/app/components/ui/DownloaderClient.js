@@ -238,7 +238,7 @@ export default function DownloaderClient({ locale }) {
                         downloadButtonIsLoading={isLoading || isRetrying}
                         remainApiCount={remainApiCount}
                         url={url}
-                        onFetch={fetchTweet}
+                        onDownload={fetchTweet}
                     />
                 </div>
                 
