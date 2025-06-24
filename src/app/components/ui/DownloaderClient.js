@@ -32,14 +32,14 @@ export default function DownloaderClient({ locale }) {
     const [originTweets, setOriginTweets] = useState([]);
     const [tweets, setTweets] = useState([]);
     
-    // 其他状态变量...
+    // 其他状态变量
     const [selectedTweetIndex, setSelectedTweetIndex] = useState(0);
     const [selectedMediaIndex, setSelectedMediaIndex] = useState(0);
     const [translatedTweets, setTranslatedTweets] = useState([]);
 
     const t = function (key) {
         return getTranslation(locale, key);
-    }
+    };
 
     const fetchRemainApiCount = async () => {
         try {
@@ -116,7 +116,7 @@ export default function DownloaderClient({ locale }) {
                     tweet_text: tweet.text,
                     tweet_media: tweet.medias.map((media) => media.url),
                     medias_info: tweet.medias
-                }
+                };
             });
             setTweets(tempTweets);
             
@@ -128,7 +128,7 @@ export default function DownloaderClient({ locale }) {
             }, 1500);
             
             fetchRemainApiCount();
-            router.replace(`/downloader?url=${url}`);
+            router.replace(`/downloader?url=${encodeURIComponent(url)}`);
             
         } catch (err) {
             console.error('Fetch tweet error:', err);
@@ -177,6 +177,7 @@ export default function DownloaderClient({ locale }) {
         link.href = mediaUrl;
         link.download = filename || 'download';
         link.target = '_blank';
+        link.rel = 'noopener noreferrer';
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -186,16 +187,17 @@ export default function DownloaderClient({ locale }) {
         const tweet = tweets[selectedTweetIndex];
         if (tweet && tweet.medias_info && tweet.medias_info[selectedMediaIndex]) {
             const media = tweet.medias_info[selectedMediaIndex];
-            const filename = `twitter_${Date.now()}.${media.type === 'photo' ? 'jpg' : 'mp4'}`;
+            const extension = media.type === 'photo' ? 'jpg' : 'mp4';
+            const filename = `twitter_${Date.now()}.${extension}`;
             downloadMedia(media.url, filename);
         }
     };
 
     useEffect(() => {
+        fetchRemainApiCount();
         if (url) {
             fetchTweet(url);
         }
-        fetchRemainApiCount();
     }, [url]);
 
     return (
