@@ -1,4 +1,4 @@
-import { getTranslation } from '@/lib/i18n';
+import { getTranslation, isChinese } from '@/lib/i18n';
 import HotTweets from '@/app/components/ui/HotTweets';
 import FAQ from '@/app/components/ui/FAQ';
 import HotCreators from '@/app/components/ui/HotCreators';
@@ -55,7 +55,7 @@ export default async function Home({ params: { locale } }) {
         <div className="section bg-gray-50 dark:bg-gray-900">
           <div className="px-4 py-8">
             <h3 className="text-2xl font-bold text-center mb-8">
-              {locale === 'zh' ? '专业下载工具' : 'Professional Download Tools'}
+              {isChinese(locale) ? '专业下载工具' : 'Professional Download Tools'}
             </h3>
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
               <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg text-center">
@@ -66,11 +66,11 @@ export default async function Home({ params: { locale } }) {
                 </div>
                 <h4 className="font-semibold mb-2">
                   <a href={`/${locale}/landing/twitter-video-downloader`} className="text-blue-600 hover:text-blue-800">
-                    {locale === 'zh' ? 'Twitter视频下载器' : 'Twitter Video Downloader'}
+                    {isChinese(locale) ? 'Twitter视频下载器' : 'Twitter Video Downloader'}
                   </a>
                 </h4>
                 <p className="text-sm text-gray-600 dark:text-gray-300">
-                  {locale === 'zh' ? '专业的Twitter视频下载工具' : 'Professional Twitter video download tool'}
+                  {isChinese(locale) ? '专业的Twitter视频下载工具' : 'Professional Twitter video download tool'}
                 </p>
               </div>
               
@@ -82,11 +82,11 @@ export default async function Home({ params: { locale } }) {
                 </div>
                 <h4 className="font-semibold mb-2">
                   <a href={`/${locale}/landing/twitter-gif-download`} className="text-purple-600 hover:text-purple-800">
-                    {locale === 'zh' ? 'Twitter GIF下载' : 'Twitter GIF Download'}
+                    {isChinese(locale) ? 'Twitter GIF下载' : 'Twitter GIF Download'}
                   </a>
                 </h4>
                 <p className="text-sm text-gray-600 dark:text-gray-300">
-                  {locale === 'zh' ? '专门下载Twitter GIF动图' : 'Specialized Twitter GIF downloader'}
+                  {isChinese(locale) ? '专门下载Twitter GIF动图' : 'Specialized Twitter GIF downloader'}
                 </p>
               </div>
               
@@ -98,11 +98,11 @@ export default async function Home({ params: { locale } }) {
                 </div>
                 <h4 className="font-semibold mb-2">
                   <a href={`/${locale}/landing/x-video-download`} className="text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100">
-                    {locale === 'zh' ? 'X视频下载器' : 'X Video Downloader'}
+                    {isChinese(locale) ? 'X视频下载器' : 'X Video Downloader'}
                   </a>
                 </h4>
                 <p className="text-sm text-gray-600 dark:text-gray-300">
-                  {locale === 'zh' ? '支持新版X平台视频下载' : 'Support new X platform videos'}
+                  {isChinese(locale) ? '支持新版X平台视频下载' : 'Support new X platform videos'}
                 </p>
               </div>
               
@@ -114,11 +114,11 @@ export default async function Home({ params: { locale } }) {
                 </div>
                 <h4 className="font-semibold mb-2">
                   <a href={`/${locale}/landing/mobile-video-download`} className="text-green-600 hover:text-green-800">
-                    {locale === 'zh' ? '移动端下载器' : 'Mobile Downloader'}
+                    {isChinese(locale) ? '移动端下载器' : 'Mobile Downloader'}
                   </a>
                 </h4>
                 <p className="text-sm text-gray-600 dark:text-gray-300">
-                  {locale === 'zh' ? '专为手机用户优化' : 'Optimized for mobile users'}
+                  {isChinese(locale) ? '专为手机用户优化' : 'Optimized for mobile users'}
                 </p>
               </div>
             </div>

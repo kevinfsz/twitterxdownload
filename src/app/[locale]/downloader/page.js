@@ -10,6 +10,8 @@ import { parseTweetData } from '@/lib/parser';
 import TweetCard from '@/app/components/ui/TweetCard';
 import { translate } from '@/lib/translator';
 import ConfirmModal from '@/app/components/ui/ConfirmModal';
+import { useErrorHandler, ErrorDisplay, RetryStatus, ERROR_TYPES } from '@/app/components/ui/ErrorHandler';
+import { DownloadProgress, PageLoading } from '@/app/components/ui/LoadingStates';
 
 export default function Downloader({ params: { locale } }) {
     const searchParams = useSearchParams();
@@ -19,6 +21,12 @@ export default function Downloader({ params: { locale } }) {
     const [isLoading, setIsLoading] = useState(false);
     const [remainApiCount, setRemainApiCount] = useState(0);
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
+    
+    // 错误处理
+    const { error, isRetrying, retryCount, handleError, clearError, retry } = useErrorHandler(locale);
+    
+    // 下载进度
+    const [downloadProgress, setDownloadProgress] = useState(null);
 
     const [tweetData, setTweetData] = useState(null);
     const [originTweets, setOriginTweets] = useState([]);
@@ -42,52 +50,103 @@ export default function Downloader({ params: { locale } }) {
         setRemainApiCount(data.data);
     }
 
-    let retryTimes = 0;
     const fetchTweet = async (url) => {
-        const tweet_id = url.match(/status\/(\d{19})/)?.[1] || url.split('/').pop();
-        const response = await fetch(`/api/requestx?tweet_id=${tweet_id}`);
-        const data = await response.json();
-        
-
-        if(!data.success){
-            // 如果请求失败,最多重试3次
-            // 每次重试的间隔时间需要随机在 1000-1500ms 之间
-            if(retryTimes < 3){
-                setTimeout(() => {
-                    console.log("retry fetch " + (retryTimes+1));
-                    fetchTweet(url);
-                    retryTimes++;
-                }, 1000 + Math.random() * 500);
-            }else{
-                retryTimes = 0;
-                setIsLoading(false);
+        try {
+            clearError();
+            setIsLoading(true);
+            setDownloadProgress({ progress: 10, status: 'fetching', fileName: 'Tweet data' });
+            
+            // 验证URL格式
+            const twitterUrlPattern = /^https?:\/\/(twitter\.com|x\.com)\/[a-zA-Z0-9_]+\/status\/\d+/;
+            if (!twitterUrlPattern.test(url)) {
+                handleError(ERROR_TYPES.INVALID_URL);
+                return;
             }
-            return;
+            
+            const tweet_id = url.match(/status\/(\d{19})/)?.[1] || url.split('/').pop();
+            if (!tweet_id) {
+                handleError(ERROR_TYPES.INVALID_URL);
+                return;
+            }
+            
+            setDownloadProgress({ progress: 30, status: 'fetching', fileName: 'Tweet data' });
+            
+            const response = await fetch(`/api/requestx?tweet_id=${tweet_id}`);
+            
+            if (!response.ok) {
+                if (response.status === 404) {
+                    handleError(ERROR_TYPES.NOT_FOUND);
+                } else if (response.status === 429) {
+                    handleError(ERROR_TYPES.RATE_LIMIT);
+                } else if (response.status >= 500) {
+                    handleError(ERROR_TYPES.SERVER_ERROR);
+                } else {
+                    handleError(ERROR_TYPES.NETWORK);
+                }
+                return;
+            }
+            
+            const data = await response.json();
+            setDownloadProgress({ progress: 60, status: 'processing', fileName: 'Tweet data' });
+            
+            if (!data.success) {
+                // 根据错误消息确定错误类型
+                if (data.message?.includes('not found')) {
+                    handleError(ERROR_TYPES.NOT_FOUND);
+                } else if (data.message?.includes('rate limit')) {
+                    handleError(ERROR_TYPES.RATE_LIMIT);
+                } else {
+                    handleError(ERROR_TYPES.SERVER_ERROR);
+                }
+                return;
+            }
+            
+            setDownloadProgress({ progress: 80, status: 'processing', fileName: 'Tweet data' });
+            
+            setTweetData(data.data);
+            const tempOriginTweets = parseTweetData(data.data);
+            setOriginTweets(tempOriginTweets);
+
+            const tempTweets = tempOriginTweets.map((tweet) => {
+                return {
+                    name: "name",
+                    screen_name: "screen_name",
+                    profile_image: "",
+                    tweet_text: tweet.text,
+                    tweet_media: tweet.medias.map((media) => media.url),
+                    medias_info: tweet.medias
+                }
+            });
+            setTweets(tempTweets);
+            
+            setDownloadProgress({ progress: 100, status: 'complete', fileName: 'Tweet data' });
+            
+            // 延迟隐藏进度条
+            setTimeout(() => {
+                setDownloadProgress(null);
+            }, 1500);
+            
+            fetchRemainApiCount();
+            router.replace(`/downloader?url=${url}`);
+            
+        } catch (err) {
+            console.error('Fetch tweet error:', err);
+            if (err.name === 'TypeError' && err.message.includes('fetch')) {
+                handleError(ERROR_TYPES.NETWORK);
+            } else {
+                handleError(ERROR_TYPES.UNKNOWN, err);
+            }
+        } finally {
+            setIsLoading(false);
         }
-
-        setIsLoading(false);
-        setTweetData(data.data);
-
-        const tempOriginTweets = parseTweetData(data.data);
-        setOriginTweets(tempOriginTweets);
-
-        const tempTweets = tempOriginTweets.map((tweet) => {
-            return {
-                name: "name",
-                screen_name: "screen_name",
-                profile_image: "",
-                tweet_text: tweet.text,
-                tweet_media: tweet.medias.map((media) => media.url),
-                medias_info: tweet.medias
-            }
-        });
-        setTweets(tempTweets);
-        console.log(tempTweets);
-
-        fetchRemainApiCount();
-
-        router.replace(`/downloader?url=${url}`);
-    }
+    };
+    
+    // 重试函数
+    const handleRetry = () => {
+        if (url) {
+            retry(() => fetchTweet(url));
+        }
+    };
 
     const translateTweet = async (targetLang) => {
 
@@ -193,10 +252,38 @@ export default function Downloader({ params: { locale } }) {
             <div className="flex flex-col gap-4 justify-center items-center">
                 <div></div>
                 <div className="">
+                    {/* 错误显示 */}
+                    <ErrorDisplay 
+                        error={error}
+                        onRetry={handleRetry}
+                        onDismiss={clearError}
+                        locale={locale}
+                    />
+                    
+                    {/* 重试状态 */}
+                    <RetryStatus 
+                        isRetrying={isRetrying}
+                        retryCount={retryCount}
+                        maxRetries={3}
+                        locale={locale}
+                    />
+                    
+                    {/* 下载进度 */}
+                    {downloadProgress && (
+                        <div className="mb-4">
+                            <DownloadProgress 
+                                progress={downloadProgress.progress}
+                                status={downloadProgress.status}
+                                fileName={downloadProgress.fileName}
+                                locale={locale}
+                            />
+                        </div>
+                    )}
+                    
                     <Hero
                         locale={locale}
                         downloadButtonLabel="Fetch"
-                        downloadButtonIsLoading={isLoading}
+                        downloadButtonIsLoading={isLoading || isRetrying}
                         remainApiCount={remainApiCount}
                         url={url}
                         onDownload={(url) => {

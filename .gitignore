@@ -144,3 +144,14 @@ task-seo-optimization/deployment-verification-checklist.md
 task-seo-optimization/integration-deployment-summary.md
 task-fix-tools-menu-error/todo.md
 task-fix-tools-menu-error/project-summary.md
+task-fix-deployment-error/project-summary.md
+task-fix-deployment-error/todo.md
+deploy.sh
+package-manager-fix.sh
+task-fix-deployment-error/quick-fix-commands.md
+task-fix-deployment-error/server-deployment-guide.md
+task-fix-tools-menu-error/production-error-analysis.md
+task-fix-tools-menu-error/fix-locale-checks.js
+project-improvement-summary.md
+todo.md
+package-lock.json

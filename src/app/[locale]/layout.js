@@ -8,6 +8,7 @@ import {Providers} from "../providers";
 
 import MyNavbar from '../components/ui/MyNavbar';
 import MyFooter from '../components/ui/MyFooter';
+import PWAInstaller from '../components/ui/PWAInstaller';
 
 
 export const metadata = {
@@ -48,6 +49,15 @@ export const metadata = {
     apple: [
       { url: '/images/logo.png', sizes: '180x180' }
     ]
+  },
+  manifest: '/manifest.json',
+  themeColor: '#1DA1F2',
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 1,
+    userScalable: false,
+    viewportFit: 'cover'
   }
 };
 
@@ -60,12 +70,30 @@ export default function RootLayout({ children, params }) {
             <GoogleAdsense />
             <GoogleAnalytics />
             <UmamiAnalytics />
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `
+                  if ('serviceWorker' in navigator) {
+                    window.addEventListener('load', function() {
+                      navigator.serviceWorker.register('/sw.js')
+                        .then(function(registration) {
+                          console.log('SW registered: ', registration);
+                        })
+                        .catch(function(registrationError) {
+                          console.log('SW registration failed: ', registrationError);
+                        });
+                    });
+                  }
+                `
+              }}
+            />
         </head>
         <body className="bg-background text-foreground">
             <Providers>
                 <MyNavbar locale={locale} />
                 {children}
                 <MyFooter locale={locale} />
+                <PWAInstaller locale={locale} />
             </Providers>
         </body>
       </html>

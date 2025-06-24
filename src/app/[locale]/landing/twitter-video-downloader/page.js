@@ -1,4 +1,4 @@
-import { getTranslation } from '@/lib/i18n';
+import { getTranslation, isChinese } from '@/lib/i18n';
 import Hero from '@/app/components/ui/Hero';
 import FAQ from '@/app/components/ui/FAQ';
 import StructuredData from '@/app/components/StructuredData';
@@ -10,25 +10,25 @@ export async function generateMetadata({ params: { locale } }) {
     return getTranslation(locale, key);
   };
 
-  const title = locale === 'zh' 
+  const title = isChinese(locale) 
     ? '推特视频下载器 - 免费下载Twitter视频和GIF | TwitterXDownload'
     : 'Twitter Video Downloader - Free Download Twitter Videos & GIFs | TwitterXDownload';
   
-  const description = locale === 'zh'
+  const description = isChinese(locale)
     ? '最佳的推特视频下载器，支持免费下载Twitter视频、GIF和图片。无需注册，高清质量，支持手机和电脑使用。'
     : 'Best Twitter video downloader for free! Download Twitter videos, GIFs, and images in HD quality. No registration required, works on mobile and desktop.';
 
   return {
     title,
     description,
-    keywords: locale === 'zh' 
+    keywords: isChinese(locale) 
       ? '推特视频下载器,Twitter视频下载,推特GIF下载,X视频下载,Twitter下载工具'
       : 'twitter video downloader, download twitter video, twitter gif download, x video download, twitter downloader tool',
     openGraph: {
       title,
       description,
       type: 'website',
-      locale: locale === 'zh' ? 'zh_CN' : 'en_US',
+      locale: isChinese(locale) ? 'zh_CN' : 'en_US',
       siteName: 'TwitterXDownload',
       images: [{
         url: '/twitter-video-downloader-og.jpg',
@@ -80,8 +80,8 @@ export default async function TwitterVideoDownloaderLanding({ params: { locale }
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    "name": locale === 'zh' ? "推特视频下载器 - TwitterXDownload" : "Twitter Video Downloader - TwitterXDownload",
-    "description": locale === 'zh' 
+    "name": isChinese(locale) ? "推特视频下载器 - TwitterXDownload" : "Twitter Video Downloader - TwitterXDownload",
+    "description": isChinese(locale) 
       ? "免费的推特视频下载工具，支持下载Twitter视频、GIF和图片，无需注册，高清质量。"
       : "Free Twitter video downloader tool for downloading Twitter videos, GIFs, and images. No registration required, HD quality.",
     "url": `${baseUrl}/${locale}/landing/twitter-video-downloader/`,
@@ -93,11 +93,11 @@ export default async function TwitterVideoDownloaderLanding({ params: { locale }
       "priceCurrency": "USD"
     },
     "featureList": [
-      locale === 'zh' ? "免费下载Twitter视频" : "Free Twitter video download",
-      locale === 'zh' ? "支持GIF和图片下载" : "GIF and image download support", 
-      locale === 'zh' ? "高清质量输出" : "HD quality output",
-      locale === 'zh' ? "无需注册" : "No registration required",
-      locale === 'zh' ? "跨平台支持" : "Cross-platform support"
+      isChinese(locale) ? "免费下载Twitter视频" : "Free Twitter video download",
+      isChinese(locale) ? "支持GIF和图片下载" : "GIF and image download support", 
+      isChinese(locale) ? "高清质量输出" : "HD quality output",
+      isChinese(locale) ? "无需注册" : "No registration required",
+      isChinese(locale) ? "跨平台支持" : "Cross-platform support"
     ],
     "aggregateRating": {
       "@type": "AggregateRating",
@@ -128,10 +128,10 @@ export default async function TwitterVideoDownloaderLanding({ params: { locale }
           <div className="max-w-6xl mx-auto px-4 py-16">
             <div className="text-center mb-12">
               <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-                {locale === 'zh' ? '为什么选择我们的推特视频下载器？' : 'Why Choose Our Twitter Video Downloader?'}
+                {isChinese(locale) ? '为什么选择我们的推特视频下载器？' : 'Why Choose Our Twitter Video Downloader?'}
               </h2>
               <p className="text-xl text-gray-600 dark:text-gray-300">
-                {locale === 'zh' ? '最专业、最可靠的Twitter视频下载解决方案' : 'The most professional and reliable Twitter video download solution'}
+                {isChinese(locale) ? '最专业、最可靠的Twitter视频下载解决方案' : 'The most professional and reliable Twitter video download solution'}
               </p>
             </div>
             
@@ -143,10 +143,10 @@ export default async function TwitterVideoDownloaderLanding({ params: { locale }
                   </svg>
                 </div>
                 <h3 className="text-xl font-semibold mb-2">
-                  {locale === 'zh' ? '快速下载' : 'Fast Download'}
+                  {isChinese(locale) ? '快速下载' : 'Fast Download'}
                 </h3>
                 <p className="text-gray-600 dark:text-gray-300">
-                  {locale === 'zh' ? '只需复制Twitter链接，几秒钟即可下载视频' : 'Just copy the Twitter link and download videos in seconds'}
+                  {isChinese(locale) ? '只需复制Twitter链接，几秒钟即可下载视频' : 'Just copy the Twitter link and download videos in seconds'}
                 </p>
               </div>
               
@@ -157,10 +157,10 @@ export default async function TwitterVideoDownloaderLanding({ params: { locale }
                   </svg>
                 </div>
                 <h3 className="text-xl font-semibold mb-2">
-                  {locale === 'zh' ? '高清质量' : 'HD Quality'}
+                  {isChinese(locale) ? '高清质量' : 'HD Quality'}
                 </h3>
                 <p className="text-gray-600 dark:text-gray-300">
-                  {locale === 'zh' ? '支持最高1080p高清视频下载' : 'Support up to 1080p HD video downloads'}
+                  {isChinese(locale) ? '支持最高1080p高清视频下载' : 'Support up to 1080p HD video downloads'}
                 </p>
               </div>
               
@@ -171,10 +171,10 @@ export default async function TwitterVideoDownloaderLanding({ params: { locale }
                   </svg>
                 </div>
                 <h3 className="text-xl font-semibold mb-2">
-                  {locale === 'zh' ? '安全可靠' : 'Safe & Secure'}
+                  {isChinese(locale) ? '安全可靠' : 'Safe & Secure'}
                 </h3>
                 <p className="text-gray-600 dark:text-gray-300">
-                  {locale === 'zh' ? '无需安装软件，浏览器直接使用' : 'No software installation required, use directly in browser'}
+                  {isChinese(locale) ? '无需安装软件，浏览器直接使用' : 'No software installation required, use directly in browser'}
                 </p>
               </div>
             </div>
@@ -186,10 +186,10 @@ export default async function TwitterVideoDownloaderLanding({ params: { locale }
           <div className="max-w-4xl mx-auto px-4 py-16">
             <div className="text-center mb-12">
               <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-                {locale === 'zh' ? '如何下载Twitter视频？' : 'How to Download Twitter Videos?'}
+                {isChinese(locale) ? '如何下载Twitter视频？' : 'How to Download Twitter Videos?'}
               </h2>
               <p className="text-xl text-gray-600 dark:text-gray-300">
-                {locale === 'zh' ? '简单三步，轻松下载Twitter视频' : 'Simple 3 steps to download Twitter videos easily'}
+                {isChinese(locale) ? '简单三步，轻松下载Twitter视频' : 'Simple 3 steps to download Twitter videos easily'}
               </p>
             </div>
             
@@ -198,10 +198,10 @@ export default async function TwitterVideoDownloaderLanding({ params: { locale }
                 <div className="flex-shrink-0 w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center font-bold">1</div>
                 <div>
                   <h3 className="text-xl font-semibold mb-2">
-                    {locale === 'zh' ? '复制Twitter视频链接' : 'Copy Twitter Video Link'}
+                    {isChinese(locale) ? '复制Twitter视频链接' : 'Copy Twitter Video Link'}
                   </h3>
                   <p className="text-gray-600 dark:text-gray-300">
-                    {locale === 'zh' ? '在Twitter或X平台上找到您想下载的视频，复制该推文的链接地址。' : 'Find the video you want to download on Twitter or X platform, and copy the tweet link.'}
+                    {isChinese(locale) ? '在Twitter或X平台上找到您想下载的视频，复制该推文的链接地址。' : 'Find the video you want to download on Twitter or X platform, and copy the tweet link.'}
                   </p>
                 </div>
               </div>
@@ -210,10 +210,10 @@ export default async function TwitterVideoDownloaderLanding({ params: { locale }
                 <div className="flex-shrink-0 w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center font-bold">2</div>
                 <div>
                   <h3 className="text-xl font-semibold mb-2">
-                    {locale === 'zh' ? '粘贴到输入框' : 'Paste to Input Box'}
+                    {isChinese(locale) ? '粘贴到输入框' : 'Paste to Input Box'}
                   </h3>
                   <p className="text-gray-600 dark:text-gray-300">
-                    {locale === 'zh' ? '将复制的链接粘贴到上方的输入框中，点击"粘贴"按钮或手动输入。' : 'Paste the copied link into the input box above, click the "Paste" button or enter manually.'}
+                    {isChinese(locale) ? '将复制的链接粘贴到上方的输入框中，点击"粘贴"按钮或手动输入。' : 'Paste the copied link into the input box above, click the "Paste" button or enter manually.'}
                   </p>
                 </div>
               </div>
@@ -222,10 +222,10 @@ export default async function TwitterVideoDownloaderLanding({ params: { locale }
                 <div className="flex-shrink-0 w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center font-bold">3</div>
                 <div>
                   <h3 className="text-xl font-semibold mb-2">
-                    {locale === 'zh' ? '点击下载按钮' : 'Click Download Button'}
+                    {isChinese(locale) ? '点击下载按钮' : 'Click Download Button'}
                   </h3>
                   <p className="text-gray-600 dark:text-gray-300">
-                    {locale === 'zh' ? '点击"下载"按钮，系统会自动解析视频并提供下载选项，选择合适的质量下载即可。' : 'Click the "Download" button, the system will automatically parse the video and provide download options, select the appropriate quality to download.'}
+                    {isChinese(locale) ? '点击"下载"按钮，系统会自动解析视频并提供下载选项，选择合适的质量下载即可。' : 'Click the "Download" button, the system will automatically parse the video and provide download options, select the appropriate quality to download.'}
                   </p>
                 </div>
               </div>
@@ -238,44 +238,44 @@ export default async function TwitterVideoDownloaderLanding({ params: { locale }
           <div className="max-w-6xl mx-auto px-4 py-16">
             <div className="text-center mb-12">
               <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-                {locale === 'zh' ? 'TwitterXDownload的优势' : 'TwitterXDownload Advantages'}
+                {isChinese(locale) ? 'TwitterXDownload的优势' : 'TwitterXDownload Advantages'}
               </h2>
             </div>
             
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
               <div className="text-center">
                 <h3 className="text-lg font-semibold mb-2">
-                  {locale === 'zh' ? '完全免费' : '100% Free'}
+                  {isChinese(locale) ? '完全免费' : '100% Free'}
                 </h3>
                 <p className="text-gray-600 dark:text-gray-300">
-                  {locale === 'zh' ? '永久免费使用，无隐藏费用' : 'Forever free to use, no hidden costs'}
+                  {isChinese(locale) ? '永久免费使用，无隐藏费用' : 'Forever free to use, no hidden costs'}
                 </p>
               </div>
               
               <div className="text-center">
                 <h3 className="text-lg font-semibold mb-2">
-                  {locale === 'zh' ? '无需注册' : 'No Registration'}
+                  {isChinese(locale) ? '无需注册' : 'No Registration'}
                 </h3>
                 <p className="text-gray-600 dark:text-gray-300">
-                  {locale === 'zh' ? '无需创建账户即可使用' : 'Use without creating an account'}
+                  {isChinese(locale) ? '无需创建账户即可使用' : 'Use without creating an account'}
                 </p>
               </div>
               
               <div className="text-center">
                 <h3 className="text-lg font-semibold mb-2">
-                  {locale === 'zh' ? '支持多格式' : 'Multiple Formats'}
+                  {isChinese(locale) ? '支持多格式' : 'Multiple Formats'}
                 </h3>
                 <p className="text-gray-600 dark:text-gray-300">
-                  {locale === 'zh' ? '支持MP4、GIF、图片下载' : 'Support MP4, GIF, image downloads'}
+                  {isChinese(locale) ? '支持MP4、GIF、图片下载' : 'Support MP4, GIF, image downloads'}
                 </p>
               </div>
               
               <div className="text-center">
                 <h3 className="text-lg font-semibold mb-2">
-                  {locale === 'zh' ? '跨平台兼容' : 'Cross-Platform'}
+                  {isChinese(locale) ? '跨平台兼容' : 'Cross-Platform'}
                 </h3>
                 <p className="text-gray-600 dark:text-gray-300">
-                  {locale === 'zh' ? '支持手机、平板、电脑使用' : 'Works on mobile, tablet, desktop'}
+                  {isChinese(locale) ? '支持手机、平板、电脑使用' : 'Works on mobile, tablet, desktop'}
                 </p>
               </div>
             </div>
@@ -287,7 +287,7 @@ export default async function TwitterVideoDownloaderLanding({ params: { locale }
           <div className="max-w-4xl mx-auto px-4 py-16">
             <div className="text-center mb-12">
               <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-                {locale === 'zh' ? '相关教程' : 'Related Tutorials'}
+                {isChinese(locale) ? '相关教程' : 'Related Tutorials'}
               </h2>
             </div>
             
@@ -295,22 +295,22 @@ export default async function TwitterVideoDownloaderLanding({ params: { locale }
               <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg">
                 <h3 className="text-xl font-semibold mb-3">
                   <a href={`/${locale}/tutorials/iphone-twitter-video-download/`} className="text-blue-600 hover:text-blue-800">
-                    {locale === 'zh' ? 'iPhone推特视频下载教程' : 'How to Download Twitter Videos on iPhone'}
+                    {isChinese(locale) ? 'iPhone推特视频下载教程' : 'How to Download Twitter Videos on iPhone'}
                   </a>
                 </h3>
                 <p className="text-gray-600 dark:text-gray-300">
-                  {locale === 'zh' ? '详细介绍如何在iPhone上下载Twitter视频的完整步骤和技巧。' : 'Complete guide on how to download Twitter videos on iPhone with detailed steps and tips.'}
+                  {isChinese(locale) ? '详细介绍如何在iPhone上下载Twitter视频的完整步骤和技巧。' : 'Complete guide on how to download Twitter videos on iPhone with detailed steps and tips.'}
                 </p>
               </div>
               
               <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg">
                 <h3 className="text-xl font-semibold mb-3">
                   <a href={`/${locale}/tutorials/mac-twitter-gif-save/`} className="text-blue-600 hover:text-blue-800">
-                    {locale === 'zh' ? 'Mac保存Twitter GIF教程' : 'How to Save Twitter GIFs on Mac'}
+                    {isChinese(locale) ? 'Mac保存Twitter GIF教程' : 'How to Save Twitter GIFs on Mac'}
                   </a>
                 </h3>
                 <p className="text-gray-600 dark:text-gray-300">
-                  {locale === 'zh' ? '学习如何在Mac电脑上轻松保存和下载Twitter GIF动图。' : 'Learn how to easily save and download Twitter GIF animations on Mac computer.'}
+                  {isChinese(locale) ? '学习如何在Mac电脑上轻松保存和下载Twitter GIF动图。' : 'Learn how to easily save and download Twitter GIF animations on Mac computer.'}
                 </p>
               </div>
             </div>
@@ -321,7 +321,7 @@ export default async function TwitterVideoDownloaderLanding({ params: { locale }
         <div className="section">
           <div className="max-w-4xl mx-auto px-4">
             <h2 className="text-3xl font-bold text-center text-gray-900 dark:text-white mb-8">
-              {locale === 'zh' ? '常见问题' : 'Frequently Asked Questions'}
+              {isChinese(locale) ? '常见问题' : 'Frequently Asked Questions'}
             </h2>
             <FAQ locale={locale} />
           </div>

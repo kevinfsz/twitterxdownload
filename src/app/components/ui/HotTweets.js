@@ -1,5 +1,7 @@
 import { Chip } from "@heroui/react";
 import { getTranslation } from "@/lib/i18n";
+import { TweetListSkeleton, EmptyState } from './LoadingStates';
+import { RiFileTextLine } from '@remixicon/react';
 import TweetCard from './TweetCard';
 import { headers } from 'next/headers'
 
@@ -21,15 +23,27 @@ export default async function HotTweets({ locale = 'en' }) {
         });
         const tweetsData = await tweetsResp.json();
         
-        totalCount = tweetsData?.count || 0;
-        const tweetsArray = tweetsData?.data || [];
+        console.log('HotTweets Component Debug:');
+        console.log('API Response:', tweetsData);
+        console.log('Success:', tweetsData?.success);
+        console.log('Count:', tweetsData?.count);
+        console.log('Data length:', tweetsData?.data?.length);
+        
+        if (tweetsData?.success) {
+            totalCount = tweetsData?.count || 0;
+            const tweetsArray = tweetsData?.data || [];
 
-        tweetsArray.forEach((tweet, index) => {
-            tweets[index % 3].push({
-                ...tweet,
-                tweet_media: tweet.tweet_media ? tweet.tweet_media.split(',') : []
+            tweetsArray.forEach((tweet, index) => {
+                tweets[index % 3].push({
+                    ...tweet,
+                    tweet_media: tweet.tweet_media ? tweet.tweet_media.split(',') : []
+                });
             });
-        });
+        } else {
+            console.error('API returned error:', tweetsData?.error);
+            totalCount = 0;
+            tweets = [[], [], []];
+        }
     } catch (error) {
         console.error('Failed to fetch tweets:', error);
         totalCount = 0;

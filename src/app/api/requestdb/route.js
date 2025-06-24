@@ -22,16 +22,29 @@ export async function GET(request) {
   try {
     await dbConnect();
 
-    const hiddenAccounts = await Hiddens.find().select('screen_name');
-    const hiddenScreenNames = hiddenAccounts.map(account => account.screen_name).join('|');
+    // 获取隐藏账户列表
+    let hiddenScreenNames = '';
+    try {
+      const hiddenAccounts = await Hiddens.find().select('screen_name');
+      hiddenScreenNames = hiddenAccounts.map(account => account.screen_name).join('|');
+    } catch (error) {
+      console.log('Hidden accounts query failed, continuing without filtering:', error.message);
+    }
     
+    // 简化过滤条件，确保下载记录能够显示
     const baseFilter = {
-        screen_name: { $not: { $regex: hiddenScreenNames, $options: 'i' } },
-        name: { $not: { $regex: HIDDEN_KEYWORDS_REGEX, $options: 'i' } },
-        tweet_text: { $not: { $regex: HIDDEN_KEYWORDS_REGEX, $options: 'i' } },
         is_hidden: { $ne: 1 }, 
         tweet_media: { $ne: null, $ne: '' }
     };
+
+    // 只有在有隐藏关键词或账户时才添加额外过滤
+    if (hiddenScreenNames) {
+        baseFilter.screen_name = { $not: { $regex: hiddenScreenNames, $options: 'i' } };
+    }
+    if (HIDDEN_KEYWORDS_REGEX) {
+        baseFilter.name = { $not: { $regex: HIDDEN_KEYWORDS_REGEX, $options: 'i' } };
+        baseFilter.tweet_text = { $not: { $regex: HIDDEN_KEYWORDS_REGEX, $options: 'i' } };
+    }
 
     let allData;
     let count = 0;
@@ -47,6 +60,9 @@ export async function GET(request) {
               { $limit: 15 }
             ],
             count: [
+              { $match: { 
+                ...baseFilter
+              } },
               { $count: "total" }
             ]
           }
@@ -54,6 +70,18 @@ export async function GET(request) {
       ]);
       allData = result[0].data;
       count = result[0].count[0]?.total || 0;
+      
+      // 添加调试信息
+      console.log('Hot Tweets API Debug:');
+      console.log('Filter used:', baseFilter);
+      console.log('Total count:', count);
+      console.log('Returned data length:', allData.length);
+      console.log('First 3 tweets:', allData.slice(0, 3).map(t => ({
+        tweet_id: t.tweet_id,
+        screen_name: t.screen_name,
+        created_at: t.created_at,
+        has_media: !!t.tweet_media
+      })));
     } else if (action === 'all') {
       allData = await Tweets.find({ 
         ...baseFilter

@@ -1,4 +1,4 @@
-import { getTranslation } from '@/lib/i18n';
+import { getTranslation, isChinese } from '@/lib/i18n';
 import Hero from '@/app/components/ui/Hero';
 import FAQ from '@/app/components/ui/FAQ';
 import StructuredData from '@/app/components/StructuredData';
@@ -10,25 +10,25 @@ export async function generateMetadata({ params: { locale } }) {
     return getTranslation(locale, key);
   };
 
-  const title = locale === 'zh' 
+  const title = isChinese(locale) 
     ? 'X视频下载器 - 免费下载X平台视频和GIF | TwitterXDownload'
     : 'X Video Downloader - Free Download X Platform Videos & GIFs | TwitterXDownload';
   
-  const description = locale === 'zh'
+  const description = isChinese(locale)
     ? '专业的X视频下载工具，支持下载X平台（前Twitter）视频、GIF和图片。高清质量，快速下载，支持所有格式。'
     : 'Professional X video downloader tool for downloading X platform (formerly Twitter) videos, GIFs, and images. HD quality, fast downloads, support all formats.';
 
   return {
     title,
     description,
-    keywords: locale === 'zh' 
+    keywords: isChinese(locale) 
       ? 'X视频下载,X视频下载器,下载X视频,X平台视频下载,X.com视频下载'
       : 'x video download, x video downloader, download x video, x platform video download, x.com video download',
     openGraph: {
       title,
       description,
       type: 'website',
-      locale: locale === 'zh' ? 'zh_CN' : 'en_US',
+      locale: isChinese(locale) ? 'zh_CN' : 'en_US',
       siteName: 'TwitterXDownload',
       images: [{
         url: '/x-video-download-og.jpg',
@@ -80,8 +80,8 @@ export default async function XVideoDownloadLanding({ params: { locale } }) {
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    "name": locale === 'zh' ? "X视频下载器 - TwitterXDownload" : "X Video Downloader - TwitterXDownload",
-    "description": locale === 'zh' 
+    "name": isChinese(locale) ? "X视频下载器 - TwitterXDownload" : "X Video Downloader - TwitterXDownload",
+    "description": isChinese(locale) 
       ? "专业的X视频下载工具，支持免费下载X平台视频、GIF和图片，高质量输出。"
       : "Professional X video downloader tool for free downloading X platform videos, GIFs, and images with high quality output.",
     "url": `${baseUrl}/${locale}/landing/x-video-download/`,
@@ -93,11 +93,11 @@ export default async function XVideoDownloadLanding({ params: { locale } }) {
       "priceCurrency": "USD"
     },
     "featureList": [
-      locale === 'zh' ? "免费下载X视频" : "Free X video download",
-      locale === 'zh' ? "支持1080p高清下载" : "Support 1080p HD download", 
-      locale === 'zh' ? "兼容新版X平台" : "Compatible with new X platform",
-      locale === 'zh' ? "支持批量下载" : "Support batch downloads",
-      locale === 'zh' ? "无需登录账号" : "No login required"
+      isChinese(locale) ? "免费下载X视频" : "Free X video download",
+      isChinese(locale) ? "支持1080p高清下载" : "Support 1080p HD download", 
+      isChinese(locale) ? "兼容新版X平台" : "Compatible with new X platform",
+      isChinese(locale) ? "支持批量下载" : "Support batch downloads",
+      isChinese(locale) ? "无需登录账号" : "No login required"
     ],
     "aggregateRating": {
       "@type": "AggregateRating",
@@ -115,13 +115,13 @@ export default async function XVideoDownloadLanding({ params: { locale } }) {
         <div className="section">
           <div className="text-center pt-16 pb-2">
             <h1 className="text-5xl font-bold text-primary mb-2">
-              {locale === 'zh' ? '下载 X 平台视频' : 'Download X Platform Videos'}
+              {isChinese(locale) ? '下载 X 平台视频' : 'Download X Platform Videos'}
             </h1>
             <p className="text-4xl text-subtext mb-4">
-              {locale === 'zh' ? '支持新版X.com，高清下载' : 'Support New X.com, HD Downloads'}
+              {isChinese(locale) ? '支持新版X.com，高清下载' : 'Support New X.com, HD Downloads'}
             </p>
             <p className="text-lg text-gray-600 dark:text-gray-300 mb-8">
-              {locale === 'zh' ? '完美兼容Twitter改名后的X平台，继续享受高质量视频下载服务' : 'Perfect compatibility with X platform after Twitter rebrand, continue enjoying high-quality video download service'}
+              {isChinese(locale) ? '完美兼容Twitter改名后的X平台，继续享受高质量视频下载服务' : 'Perfect compatibility with X platform after Twitter rebrand, continue enjoying high-quality video download service'}
             </p>
           </div>
           <Hero 
@@ -139,10 +139,10 @@ export default async function XVideoDownloadLanding({ params: { locale } }) {
           <div className="max-w-6xl mx-auto px-4 py-16">
             <div className="text-center mb-12">
               <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-                {locale === 'zh' ? '专为X平台优化' : 'Optimized for X Platform'}
+                {isChinese(locale) ? '专为X平台优化' : 'Optimized for X Platform'}
               </h2>
               <p className="text-xl text-gray-600 dark:text-gray-300">
-                {locale === 'zh' ? 'Twitter改名为X后，我们的服务完全兼容新平台' : 'After Twitter rebranded to X, our service is fully compatible with the new platform'}
+                {isChinese(locale) ? 'Twitter改名为X后，我们的服务完全兼容新平台' : 'After Twitter rebranded to X, our service is fully compatible with the new platform'}
               </p>
             </div>
             
@@ -154,10 +154,10 @@ export default async function XVideoDownloadLanding({ params: { locale } }) {
                   </svg>
                 </div>
                 <h3 className="text-xl font-semibold mb-2">
-                  {locale === 'zh' ? '完美兼容X.com' : 'Perfect X.com Compatibility'}
+                  {isChinese(locale) ? '完美兼容X.com' : 'Perfect X.com Compatibility'}
                 </h3>
                 <p className="text-gray-600 dark:text-gray-300">
-                  {locale === 'zh' ? '全面支持X.com域名和新版界面，无缝下载体验' : 'Full support for X.com domain and new interface, seamless download experience'}
+                  {isChinese(locale) ? '全面支持X.com域名和新版界面，无缝下载体验' : 'Full support for X.com domain and new interface, seamless download experience'}
                 </p>
               </div>
               
@@ -168,10 +168,10 @@ export default async function XVideoDownloadLanding({ params: { locale } }) {
                   </svg>
                 </div>
                 <h3 className="text-xl font-semibold mb-2">
-                  {locale === 'zh' ? '双域名支持' : 'Dual Domain Support'}
+                  {isChinese(locale) ? '双域名支持' : 'Dual Domain Support'}
                 </h3>
                 <p className="text-gray-600 dark:text-gray-300">
-                  {locale === 'zh' ? '同时支持twitter.com和x.com链接下载' : 'Support both twitter.com and x.com link downloads'}
+                  {isChinese(locale) ? '同时支持twitter.com和x.com链接下载' : 'Support both twitter.com and x.com link downloads'}
                 </p>
               </div>
               
@@ -182,10 +182,10 @@ export default async function XVideoDownloadLanding({ params: { locale } }) {
                   </svg>
                 </div>
                 <h3 className="text-xl font-semibold mb-2">
-                  {locale === 'zh' ? '实时更新' : 'Real-time Updates'}
+                  {isChinese(locale) ? '实时更新' : 'Real-time Updates'}
                 </h3>
                 <p className="text-gray-600 dark:text-gray-300">
-                  {locale === 'zh' ? '紧跟X平台更新，确保下载功能稳定可用' : 'Keep up with X platform updates, ensure stable download functionality'}
+                  {isChinese(locale) ? '紧跟X平台更新，确保下载功能稳定可用' : 'Keep up with X platform updates, ensure stable download functionality'}
                 </p>
               </div>
             </div>
@@ -197,10 +197,10 @@ export default async function XVideoDownloadLanding({ params: { locale } }) {
           <div className="max-w-6xl mx-auto px-4 py-16">
             <div className="text-center mb-12">
               <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-                {locale === 'zh' ? '支持的内容类型' : 'Supported Content Types'}
+                {isChinese(locale) ? '支持的内容类型' : 'Supported Content Types'}
               </h2>
               <p className="text-xl text-gray-600 dark:text-gray-300">
-                {locale === 'zh' ? '全面支持X平台上的各种媒体内容' : 'Comprehensive support for various media content on X platform'}
+                {isChinese(locale) ? '全面支持X平台上的各种媒体内容' : 'Comprehensive support for various media content on X platform'}
               </p>
             </div>
             
@@ -212,10 +212,10 @@ export default async function XVideoDownloadLanding({ params: { locale } }) {
                   </svg>
                 </div>
                 <h3 className="text-lg font-semibold mb-2">
-                  {locale === 'zh' ? 'X视频' : 'X Videos'}
+                  {isChinese(locale) ? 'X视频' : 'X Videos'}
                 </h3>
                 <p className="text-sm text-gray-600 dark:text-gray-300">
-                  {locale === 'zh' ? '高清MP4视频，支持1080p下载' : 'HD MP4 videos, support 1080p downloads'}
+                  {isChinese(locale) ? '高清MP4视频，支持1080p下载' : 'HD MP4 videos, support 1080p downloads'}
                 </p>
               </div>
               
@@ -226,10 +226,10 @@ export default async function XVideoDownloadLanding({ params: { locale } }) {
                   </svg>
                 </div>
                 <h3 className="text-lg font-semibold mb-2">
-                  {locale === 'zh' ? 'GIF动图' : 'GIF Animations'}
+                  {isChinese(locale) ? 'GIF动图' : 'GIF Animations'}
                 </h3>
                 <p className="text-sm text-gray-600 dark:text-gray-300">
-                  {locale === 'zh' ? '保持原始质量的GIF下载' : 'Original quality GIF downloads'}
+                  {isChinese(locale) ? '保持原始质量的GIF下载' : 'Original quality GIF downloads'}
                 </p>
               </div>
               
@@ -240,10 +240,10 @@ export default async function XVideoDownloadLanding({ params: { locale } }) {
                   </svg>
                 </div>
                 <h3 className="text-lg font-semibold mb-2">
-                  {locale === 'zh' ? '图片' : 'Images'}
+                  {isChinese(locale) ? '图片' : 'Images'}
                 </h3>
                 <p className="text-sm text-gray-600 dark:text-gray-300">
-                  {locale === 'zh' ? '高分辨率图片，支持批量下载' : 'High resolution images, support batch downloads'}
+                  {isChinese(locale) ? '高分辨率图片，支持批量下载' : 'High resolution images, support batch downloads'}
                 </p>
               </div>
               
@@ -254,10 +254,10 @@ export default async function XVideoDownloadLanding({ params: { locale } }) {
                   </svg>
                 </div>
                 <h3 className="text-lg font-semibold mb-2">
-                  {locale === 'zh' ? '音频' : 'Audio'}
+                  {isChinese(locale) ? '音频' : 'Audio'}
                 </h3>
                 <p className="text-sm text-gray-600 dark:text-gray-300">
-                  {locale === 'zh' ? '提取视频音频，MP3格式输出' : 'Extract video audio, MP3 format output'}
+                  {isChinese(locale) ? '提取视频音频，MP3格式输出' : 'Extract video audio, MP3 format output'}
                 </p>
               </div>
             </div>
@@ -269,10 +269,10 @@ export default async function XVideoDownloadLanding({ params: { locale } }) {
           <div className="max-w-4xl mx-auto px-4 py-16">
             <div className="text-center mb-12">
               <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-                {locale === 'zh' ? '如何下载X平台视频？' : 'How to Download X Platform Videos?'}
+                {isChinese(locale) ? '如何下载X平台视频？' : 'How to Download X Platform Videos?'}
               </h2>
               <p className="text-xl text-gray-600 dark:text-gray-300">
-                {locale === 'zh' ? '简单三步，快速下载X平台内容' : 'Simple 3 steps to quickly download X platform content'}
+                {isChinese(locale) ? '简单三步，快速下载X平台内容' : 'Simple 3 steps to quickly download X platform content'}
               </p>
             </div>
             
@@ -281,15 +281,15 @@ export default async function XVideoDownloadLanding({ params: { locale } }) {
                 <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-full flex items-center justify-center font-bold text-lg">1</div>
                 <div className="flex-1">
                   <h3 className="text-xl font-semibold mb-3">
-                    {locale === 'zh' ? '复制X平台链接' : 'Copy X Platform Link'}
+                    {isChinese(locale) ? '复制X平台链接' : 'Copy X Platform Link'}
                   </h3>
                   <p className="text-gray-600 dark:text-gray-300 mb-3">
-                    {locale === 'zh' ? '在X平台（x.com）上找到您想要下载的视频、GIF或图片内容，点击分享按钮，复制链接地址。' : 'Find the video, GIF, or image content you want to download on X platform (x.com), click the share button, and copy the link.'}
+                    {isChinese(locale) ? '在X平台（x.com）上找到您想要下载的视频、GIF或图片内容，点击分享按钮，复制链接地址。' : 'Find the video, GIF, or image content you want to download on X platform (x.com), click the share button, and copy the link.'}
                   </p>
                   <div className="bg-blue-50 dark:bg-blue-900/30 p-3 rounded-lg">
                     <p className="text-sm text-blue-800 dark:text-blue-200">
-                      <strong>{locale === 'zh' ? '支持格式：' : 'Supported formats:'}</strong> 
-                      {locale === 'zh' ? 'https://x.com/username/status/123... 或 https://twitter.com/username/status/123...' : 'https://x.com/username/status/123... or https://twitter.com/username/status/123...'}
+                      <strong>{isChinese(locale) ? '支持格式：' : 'Supported formats:'}</strong> 
+                      {isChinese(locale) ? 'https://x.com/username/status/123... 或 https://twitter.com/username/status/123...' : 'https://x.com/username/status/123... or https://twitter.com/username/status/123...'}
                     </p>
                   </div>
                 </div>
@@ -299,15 +299,15 @@ export default async function XVideoDownloadLanding({ params: { locale } }) {
                 <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-full flex items-center justify-center font-bold text-lg">2</div>
                 <div className="flex-1">
                   <h3 className="text-xl font-semibold mb-3">
-                    {locale === 'zh' ? '粘贴链接解析' : 'Paste Link for Analysis'}
+                    {isChinese(locale) ? '粘贴链接解析' : 'Paste Link for Analysis'}
                   </h3>
                   <p className="text-gray-600 dark:text-gray-300 mb-3">
-                    {locale === 'zh' ? '将复制的X平台链接粘贴到上方的输入框中，点击"粘贴"按钮或手动输入，系统会自动识别内容类型。' : 'Paste the copied X platform link into the input box above, click the "Paste" button or enter manually, the system will automatically identify the content type.'}
+                    {isChinese(locale) ? '将复制的X平台链接粘贴到上方的输入框中，点击"粘贴"按钮或手动输入，系统会自动识别内容类型。' : 'Paste the copied X platform link into the input box above, click the "Paste" button or enter manually, the system will automatically identify the content type.'}
                   </p>
                   <div className="bg-green-50 dark:bg-green-900/30 p-3 rounded-lg">
                     <p className="text-sm text-green-800 dark:text-green-200">
-                      <strong>{locale === 'zh' ? '智能识别：' : 'Smart Recognition:'}</strong> 
-                      {locale === 'zh' ? '自动检测视频、GIF、图片等不同媒体类型' : 'Automatically detect different media types like videos, GIFs, images'}
+                      <strong>{isChinese(locale) ? '智能识别：' : 'Smart Recognition:'}</strong> 
+                      {isChinese(locale) ? '自动检测视频、GIF、图片等不同媒体类型' : 'Automatically detect different media types like videos, GIFs, images'}
                     </p>
                   </div>
                 </div>
@@ -317,15 +317,15 @@ export default async function XVideoDownloadLanding({ params: { locale } }) {
                 <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-full flex items-center justify-center font-bold text-lg">3</div>
                 <div className="flex-1">
                   <h3 className="text-xl font-semibold mb-3">
-                    {locale === 'zh' ? '选择质量下载' : 'Select Quality & Download'}
+                    {isChinese(locale) ? '选择质量下载' : 'Select Quality & Download'}
                   </h3>
                   <p className="text-gray-600 dark:text-gray-300 mb-3">
-                    {locale === 'zh' ? '点击"下载"按钮，系统解析完成后会显示可用的下载选项，选择合适的质量和格式，点击下载到本地设备。' : 'Click the "Download" button, after system analysis is complete, available download options will be displayed, select the appropriate quality and format, click to download to local device.'}
+                    {isChinese(locale) ? '点击"下载"按钮，系统解析完成后会显示可用的下载选项，选择合适的质量和格式，点击下载到本地设备。' : 'Click the "Download" button, after system analysis is complete, available download options will be displayed, select the appropriate quality and format, click to download to local device.'}
                   </p>
                   <div className="bg-purple-50 dark:bg-purple-900/30 p-3 rounded-lg">
                     <p className="text-sm text-purple-800 dark:text-purple-200">
-                      <strong>{locale === 'zh' ? '质量选项：' : 'Quality Options:'}</strong> 
-                      {locale === 'zh' ? '1080p、720p、480p等多种分辨率可选' : '1080p, 720p, 480p and other resolutions available'}
+                      <strong>{isChinese(locale) ? '质量选项：' : 'Quality Options:'}</strong> 
+                      {isChinese(locale) ? '1080p、720p、480p等多种分辨率可选' : '1080p, 720p, 480p and other resolutions available'}
                     </p>
                   </div>
                 </div>
@@ -339,7 +339,7 @@ export default async function XVideoDownloadLanding({ params: { locale } }) {
           <div className="max-w-6xl mx-auto px-4 py-16">
             <div className="text-center mb-12">
               <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-                {locale === 'zh' ? '为什么选择我们的X视频下载器？' : 'Why Choose Our X Video Downloader?'}
+                {isChinese(locale) ? '为什么选择我们的X视频下载器？' : 'Why Choose Our X Video Downloader?'}
               </h2>
             </div>
             
@@ -353,10 +353,10 @@ export default async function XVideoDownloadLanding({ params: { locale } }) {
                   </div>
                   <div>
                     <h3 className="font-semibold mb-1">
-                      {locale === 'zh' ? '完全免费使用' : '100% Free to Use'}
+                      {isChinese(locale) ? '完全免费使用' : '100% Free to Use'}
                     </h3>
                     <p className="text-gray-600 dark:text-gray-300 text-sm">
-                      {locale === 'zh' ? '永久免费，无需付费订阅或注册账户' : 'Forever free, no paid subscription or account registration required'}
+                      {isChinese(locale) ? '永久免费，无需付费订阅或注册账户' : 'Forever free, no paid subscription or account registration required'}
                     </p>
                   </div>
                 </div>
@@ -369,10 +369,10 @@ export default async function XVideoDownloadLanding({ params: { locale } }) {
                   </div>
                   <div>
                     <h3 className="font-semibold mb-1">
-                      {locale === 'zh' ? '高速下载服务' : 'High-Speed Download Service'}
+                      {isChinese(locale) ? '高速下载服务' : 'High-Speed Download Service'}
                     </h3>
                     <p className="text-gray-600 dark:text-gray-300 text-sm">
-                      {locale === 'zh' ? '全球CDN加速，确保最快的下载速度' : 'Global CDN acceleration ensures fastest download speeds'}
+                      {isChinese(locale) ? '全球CDN加速，确保最快的下载速度' : 'Global CDN acceleration ensures fastest download speeds'}
                     </p>
                   </div>
                 </div>
@@ -385,10 +385,10 @@ export default async function XVideoDownloadLanding({ params: { locale } }) {
                   </div>
                   <div>
                     <h3 className="font-semibold mb-1">
-                      {locale === 'zh' ? '安全可靠' : 'Safe & Reliable'}
+                      {isChinese(locale) ? '安全可靠' : 'Safe & Reliable'}
                     </h3>
                     <p className="text-gray-600 dark:text-gray-300 text-sm">
-                      {locale === 'zh' ? 'HTTPS加密传输，保护用户隐私安全' : 'HTTPS encrypted transmission, protect user privacy and security'}
+                      {isChinese(locale) ? 'HTTPS加密传输，保护用户隐私安全' : 'HTTPS encrypted transmission, protect user privacy and security'}
                     </p>
                   </div>
                 </div>
@@ -401,10 +401,10 @@ export default async function XVideoDownloadLanding({ params: { locale } }) {
                   </div>
                   <div>
                     <h3 className="font-semibold mb-1">
-                      {locale === 'zh' ? '多设备支持' : 'Multi-Device Support'}
+                      {isChinese(locale) ? '多设备支持' : 'Multi-Device Support'}
                     </h3>
                     <p className="text-gray-600 dark:text-gray-300 text-sm">
-                      {locale === 'zh' ? '支持手机、平板、电脑等各种设备' : 'Support mobile phones, tablets, computers and other devices'}
+                      {isChinese(locale) ? '支持手机、平板、电脑等各种设备' : 'Support mobile phones, tablets, computers and other devices'}
                     </p>
                   </div>
                 </div>
@@ -419,10 +419,10 @@ export default async function XVideoDownloadLanding({ params: { locale } }) {
                   </div>
                   <div>
                     <h3 className="font-semibold mb-1">
-                      {locale === 'zh' ? '多格式输出' : 'Multiple Format Output'}
+                      {isChinese(locale) ? '多格式输出' : 'Multiple Format Output'}
                     </h3>
                     <p className="text-gray-600 dark:text-gray-300 text-sm">
-                      {locale === 'zh' ? '支持MP4、GIF、JPG、MP3等多种格式' : 'Support MP4, GIF, JPG, MP3 and other formats'}
+                      {isChinese(locale) ? '支持MP4、GIF、JPG、MP3等多种格式' : 'Support MP4, GIF, JPG, MP3 and other formats'}
                     </p>
                   </div>
                 </div>
@@ -435,10 +435,10 @@ export default async function XVideoDownloadLanding({ params: { locale } }) {
                   </div>
                   <div>
                     <h3 className="font-semibold mb-1">
-                      {locale === 'zh' ? '无软件安装' : 'No Software Installation'}
+                      {isChinese(locale) ? '无软件安装' : 'No Software Installation'}
                     </h3>
                     <p className="text-gray-600 dark:text-gray-300 text-sm">
-                      {locale === 'zh' ? '基于网页操作，无需下载安装任何软件' : 'Web-based operation, no need to download and install any software'}
+                      {isChinese(locale) ? '基于网页操作，无需下载安装任何软件' : 'Web-based operation, no need to download and install any software'}
                     </p>
                   </div>
                 </div>
@@ -451,10 +451,10 @@ export default async function XVideoDownloadLanding({ params: { locale } }) {
                   </div>
                   <div>
                     <h3 className="font-semibold mb-1">
-                      {locale === 'zh' ? '批量下载' : 'Batch Downloads'}
+                      {isChinese(locale) ? '批量下载' : 'Batch Downloads'}
                     </h3>
                     <p className="text-gray-600 dark:text-gray-300 text-sm">
-                      {locale === 'zh' ? '支持同时下载多个视频和图片' : 'Support simultaneous download of multiple videos and images'}
+                      {isChinese(locale) ? '支持同时下载多个视频和图片' : 'Support simultaneous download of multiple videos and images'}
                     </p>
                   </div>
                 </div>
@@ -467,10 +467,10 @@ export default async function XVideoDownloadLanding({ params: { locale } }) {
                   </div>
                   <div>
                     <h3 className="font-semibold mb-1">
-                      {locale === 'zh' ? '实时更新维护' : 'Real-time Updates & Maintenance'}
+                      {isChinese(locale) ? '实时更新维护' : 'Real-time Updates & Maintenance'}
                     </h3>
                     <p className="text-gray-600 dark:text-gray-300 text-sm">
-                      {locale === 'zh' ? '跟随X平台更新，确保服务始终可用' : 'Follow X platform updates to ensure service is always available'}
+                      {isChinese(locale) ? '跟随X平台更新，确保服务始终可用' : 'Follow X platform updates to ensure service is always available'}
                     </p>
                   </div>
                 </div>
@@ -484,7 +484,7 @@ export default async function XVideoDownloadLanding({ params: { locale } }) {
           <div className="max-w-4xl mx-auto px-4 py-16">
             <div className="text-center mb-12">
               <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-                {locale === 'zh' ? '相关工具推荐' : 'Related Tools Recommendation'}
+                {isChinese(locale) ? '相关工具推荐' : 'Related Tools Recommendation'}
               </h2>
             </div>
             
@@ -492,18 +492,18 @@ export default async function XVideoDownloadLanding({ params: { locale } }) {
               <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg">
                 <h3 className="text-xl font-semibold mb-3">
                   <a href={`/${locale}/landing/twitter-video-downloader/`} className="text-blue-600 hover:text-blue-800">
-                    {locale === 'zh' ? 'Twitter视频下载器' : 'Twitter Video Downloader'}
+                    {isChinese(locale) ? 'Twitter视频下载器' : 'Twitter Video Downloader'}
                   </a>
                 </h3>
                 <p className="text-gray-600 dark:text-gray-300 mb-4">
-                  {locale === 'zh' ? '原始的Twitter视频下载工具，支持twitter.com域名，功能全面，下载稳定。' : 'Original Twitter video download tool, supports twitter.com domain, comprehensive features, stable downloads.'}
+                  {isChinese(locale) ? '原始的Twitter视频下载工具，支持twitter.com域名，功能全面，下载稳定。' : 'Original Twitter video download tool, supports twitter.com domain, comprehensive features, stable downloads.'}
                 </p>
                 <div className="flex gap-2">
                   <span className="inline-block bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-xs px-2 py-1 rounded-full">
-                    {locale === 'zh' ? '经典版本' : 'Classic Version'}
+                    {isChinese(locale) ? '经典版本' : 'Classic Version'}
                   </span>
                   <span className="inline-block bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 text-xs px-2 py-1 rounded-full">
-                    {locale === 'zh' ? '稳定可靠' : 'Stable & Reliable'}
+                    {isChinese(locale) ? '稳定可靠' : 'Stable & Reliable'}
                   </span>
                 </div>
               </div>
@@ -511,18 +511,18 @@ export default async function XVideoDownloadLanding({ params: { locale } }) {
               <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg">
                 <h3 className="text-xl font-semibold mb-3">
                   <a href={`/${locale}/landing/twitter-gif-download/`} className="text-blue-600 hover:text-blue-800">
-                    {locale === 'zh' ? 'Twitter GIF下载器' : 'Twitter GIF Downloader'}
+                    {isChinese(locale) ? 'Twitter GIF下载器' : 'Twitter GIF Downloader'}
                   </a>
                 </h3>
                 <p className="text-gray-600 dark:text-gray-300 mb-4">
-                  {locale === 'zh' ? '专门针对GIF动图优化的下载工具，保持原始质量，支持格式转换。' : 'Download tool specifically optimized for GIF animations, maintain original quality, support format conversion.'}
+                  {isChinese(locale) ? '专门针对GIF动图优化的下载工具，保持原始质量，支持格式转换。' : 'Download tool specifically optimized for GIF animations, maintain original quality, support format conversion.'}
                 </p>
                 <div className="flex gap-2">
                   <span className="inline-block bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 text-xs px-2 py-1 rounded-full">
-                    {locale === 'zh' ? 'GIF专用' : 'GIF Specific'}
+                    {isChinese(locale) ? 'GIF专用' : 'GIF Specific'}
                   </span>
                   <span className="inline-block bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-200 text-xs px-2 py-1 rounded-full">
-                    {locale === 'zh' ? '高画质' : 'High Quality'}
+                    {isChinese(locale) ? '高画质' : 'High Quality'}
                   </span>
                 </div>
               </div>
@@ -534,7 +534,7 @@ export default async function XVideoDownloadLanding({ params: { locale } }) {
         <div className="section">
           <div className="max-w-4xl mx-auto px-4">
             <h2 className="text-3xl font-bold text-center text-gray-900 dark:text-white mb-8">
-              {locale === 'zh' ? '常见问题' : 'Frequently Asked Questions'}
+              {isChinese(locale) ? '常见问题' : 'Frequently Asked Questions'}
             </h2>
             <FAQ locale={locale} />
           </div>
