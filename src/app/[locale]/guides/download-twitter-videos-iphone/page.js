@@ -45,7 +45,7 @@ export default function DownloadTwitterVideosIPhone({ params: { locale } }) {
       {
         "@type": "HowToStep",
         "name": isChinese(locale) ? "复制视频链接" : "Copy Video Link",
-        "text": isChinese(locale) ? "点击分享按钮，选择"复制链接"，链接将保存到剪贴板。" : "Tap the share button, select 'Copy link', and the link will be saved to clipboard.",
+        "text": isChinese(locale) ? "点击分享按钮，选择'复制链接'，链接将保存到剪贴板。" : "Tap the share button, select 'Copy link', and the link will be saved to clipboard.",
         "image": "/images/iphone-step2-copy-link.jpg"
       },
       {

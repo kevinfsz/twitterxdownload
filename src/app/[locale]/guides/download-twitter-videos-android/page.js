@@ -45,7 +45,7 @@ export default function DownloadTwitterVideosAndroid({ params: { locale } }) {
       {
         "@type": "HowToStep",
         "name": isChinese(locale) ? "复制视频链接" : "Copy Video Link",
-        "text": isChinese(locale) ? "点击分享按钮，选择"复制链接"或"分享链接"。" : "Tap the share button, select 'Copy link' or 'Share link'.",
+        "text": isChinese(locale) ? "点击分享按钮，选择'复制链接'或'分享链接'。" : "Tap the share button, select 'Copy link' or 'Share link'.",
         "image": "/images/android-step2-copy-link.jpg"
       },
       {
