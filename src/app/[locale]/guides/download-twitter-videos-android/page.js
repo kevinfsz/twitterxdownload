@@ -78,11 +78,11 @@ export default function DownloadTwitterVideosAndroid({ params: { locale } }) {
               }
             </p>
             <div className="flex justify-center gap-4 text-sm text-gray-500 mb-8">
-              <span>🤖 Android专用</span>
+              <span>{isChinese(locale) ? '🤖 Android专用' : '🤖 Android Specific'}</span>
               <span>•</span>
-              <span>📱 全品牌支持</span>
+              <span>{isChinese(locale) ? '📱 全品牌支持' : '📱 All Brands Support'}</span>
               <span>•</span>
-              <span>⚡ 3分钟教程</span>
+              <span>{isChinese(locale) ? '⚡ 3分钟教程' : '⚡ 3-Min Tutorial'}</span>
             </div>
           </header>
 

@@ -78,11 +78,11 @@ export default function DownloadTwitterVideosIPhone({ params: { locale } }) {
               }
             </p>
             <div className="flex justify-center gap-4 text-sm text-gray-500 mb-8">
-              <span>📱 iPhone专用</span>
+              <span>{isChinese(locale) ? '📱 iPhone专用' : '📱 iPhone Specific'}</span>
               <span>•</span>
-              <span>🎥 支持高清</span>
+              <span>{isChinese(locale) ? '🎥 支持高清' : '🎥 HD Support'}</span>
               <span>•</span>
-              <span>⚡ 2分钟教程</span>
+              <span>{isChinese(locale) ? '⚡ 2分钟教程' : '⚡ 2-Min Tutorial'}</span>
             </div>
           </header>
 
