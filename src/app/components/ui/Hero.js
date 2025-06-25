@@ -22,10 +22,16 @@ export default function Hero({ locale = 'en',
             <ToastProvider placement="top-center" toastOffset={230} />
             <div className="text-center pt-16 pb-2">
                 <h1 className="text-5xl font-bold text-primary mb-2">
-                    {t('Download Twitter Video And ALL')}
+                    {locale === 'zh' || locale === 'zh-CN' ? 
+                        'Twitter视频下载器 - 免费高清X视频下载工具' : 
+                        'Twitter Video Downloader - Free HD X Video Download Tool'
+                    }
                 </h1>
-                <p className="text-4xl text-subtext mb-8">
-                    {t('Free and No Registration Required')}
+                <p className="text-xl text-subtext mb-8">
+                    {locale === 'zh' || locale === 'zh-CN' ? 
+                        '免费下载Twitter/X视频、GIF和图片。高清画质，无水印，支持iPhone、Android、PC全平台。' :
+                        'Download Twitter/X videos, GIFs & images FREE. HD quality, no watermark. Works on iPhone, Android, PC.'
+                    }
                 </p>
                 <div className="max-w-xl mx-auto pt-6">
                     <div className="relative mb-6">

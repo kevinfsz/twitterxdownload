@@ -4,60 +4,14 @@ import FAQ from '@/app/components/ui/FAQ';
 import StructuredData from '@/app/components/StructuredData';
 import { redirect } from 'next/navigation';
 import { headers } from 'next/headers';
+import { generateSEOMetadata } from '@/lib/seo';
 
 export async function generateMetadata({ params: { locale } }) {
-  const t = function (key) {
-    return getTranslation(locale, key);
-  };
-
-  const title = isChinese(locale) 
-    ? '推特视频下载器 - 免费下载Twitter视频和GIF | TwitterXDownload'
-    : 'Twitter Video Downloader - Free Download Twitter Videos & GIFs | TwitterXDownload';
-  
-  const description = isChinese(locale)
-    ? '最佳的推特视频下载器，支持免费下载Twitter视频、GIF和图片。无需注册，高清质量，支持手机和电脑使用。'
-    : 'Best Twitter video downloader for free! Download Twitter videos, GIFs, and images in HD quality. No registration required, works on mobile and desktop.';
-
-  return {
-    title,
-    description,
-    keywords: isChinese(locale) 
-      ? '推特视频下载器,Twitter视频下载,推特GIF下载,X视频下载,Twitter下载工具'
-      : 'twitter video downloader, download twitter video, twitter gif download, x video download, twitter downloader tool',
-    openGraph: {
-      title,
-      description,
-      type: 'website',
-      locale: isChinese(locale) ? 'zh_CN' : 'en_US',
-      siteName: 'TwitterXDownload',
-      images: [{
-        url: '/twitter-video-downloader-og.jpg',
-        width: 1200,
-        height: 630,
-        alt: title
-      }]
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title,
-      description,
-      images: ['/twitter-video-downloader-og.jpg']
-    },
-    robots: {
-      index: true,
-      follow: true,
-      googleBot: {
-        index: true,
-        follow: true,
-        'max-video-preview': -1,
-        'max-image-preview': 'large',
-        'max-snippet': -1,
-      },
-    },
-    alternates: {
-      canonical: `/${locale}/landing/twitter-video-downloader/`
-    }
-  };
+  return generateSEOMetadata({
+    page: 'twitter-video-downloader',
+    locale: locale,
+    pathname: `/${locale}/landing/twitter-video-downloader/`
+  });
 }
 
 export default async function TwitterVideoDownloaderLanding({ params: { locale } }) {
@@ -108,7 +62,7 @@ export default async function TwitterVideoDownloaderLanding({ params: { locale }
 
   return (
     <>
-      <StructuredData data={structuredData} />
+      <StructuredData type="software" data={structuredData} />
       
       <div className="page-container">
         {/* Hero Section */}

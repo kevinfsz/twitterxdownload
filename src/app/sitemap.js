@@ -221,6 +221,80 @@ export default async function sitemap() {
             changeFrequency: 'weekly',
             priority: 0.9,
         },
+        // SEO优化：添加新的指南页面到sitemap
+        {
+            url: `${baseUrl}/en/guides/how-to-download-twitter-videos-hd`,
+            lastModified: new Date(),
+            changeFrequency: 'weekly',
+            priority: 0.95,
+        },
+        {
+            url: `${baseUrl}/zh-CN/guides/how-to-download-twitter-videos-hd`,
+            lastModified: new Date(),
+            changeFrequency: 'weekly',
+            priority: 0.95,
+        },
+        {
+            url: `${baseUrl}/en/guides/twitter-video-downloader-no-watermark`,
+            lastModified: new Date(),
+            changeFrequency: 'weekly',
+            priority: 0.95,
+        },
+        {
+            url: `${baseUrl}/zh-CN/guides/twitter-video-downloader-no-watermark`,
+            lastModified: new Date(),
+            changeFrequency: 'weekly',
+            priority: 0.95,
+        },
+        {
+            url: `${baseUrl}/en/guides/download-twitter-videos-iphone`,
+            lastModified: new Date(),
+            changeFrequency: 'weekly',
+            priority: 0.95,
+        },
+        {
+            url: `${baseUrl}/zh-CN/guides/download-twitter-videos-iphone`,
+            lastModified: new Date(),
+            changeFrequency: 'weekly',
+            priority: 0.95,
+        },
+        {
+            url: `${baseUrl}/en/guides/download-twitter-videos-android`,
+            lastModified: new Date(),
+            changeFrequency: 'weekly',
+            priority: 0.95,
+        },
+        {
+            url: `${baseUrl}/zh-CN/guides/download-twitter-videos-android`,
+            lastModified: new Date(),
+            changeFrequency: 'weekly',
+            priority: 0.95,
+        },
+        // SEO优化：第四阶段新增高转化页面
+        {
+            url: `${baseUrl}/en/best-twitter-video-downloader-2024`,
+            lastModified: new Date(),
+            changeFrequency: 'weekly',
+            priority: 0.98,
+        },
+        {
+            url: `${baseUrl}/zh-CN/best-twitter-video-downloader-2024`,
+            lastModified: new Date(),
+            changeFrequency: 'weekly',
+            priority: 0.98,
+        },
+        {
+            url: `${baseUrl}/en/resources`,
+            lastModified: new Date(),
+            changeFrequency: 'weekly',
+            priority: 0.95,
+        },
+        {
+            url: `${baseUrl}/zh-CN/resources`,
+            lastModified: new Date(),
+            changeFrequency: 'weekly',
+            priority: 0.95,
+        },
     ];
 
     const tweetPages = tweets.map(tweet => ({

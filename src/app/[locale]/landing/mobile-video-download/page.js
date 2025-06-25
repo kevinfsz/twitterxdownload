@@ -4,39 +4,14 @@ import FAQ from '@/app/components/ui/FAQ';
 import StructuredData from '@/app/components/StructuredData';
 import { redirect } from 'next/navigation';
 import { headers } from 'next/headers';
+import { generateSEOMetadata } from '@/lib/seo';
 
 export async function generateMetadata({ params: { locale } }) {
-  const title = locale === 'zh' 
-    ? '手机下载Twitter视频工具 - 移动端优化 | TwitterXDownload'
-    : 'Mobile Twitter Video Downloader - Mobile Optimized | TwitterXDownload';
-  
-  const description = locale === 'zh'
-    ? '专为手机用户优化的Twitter视频下载器，支持iPhone、Android设备，快速下载Twitter视频和GIF。'
-    : 'Twitter video downloader optimized for mobile users, supports iPhone and Android devices, fast Twitter video and GIF downloads.';
-
-  return {
-    title,
-    description,
-    keywords: locale === 'zh' 
-      ? '手机下载Twitter视频,移动端Twitter下载,iPhone下载推特视频,Android下载Twitter'
-      : 'mobile twitter video download, mobile twitter downloader, iphone twitter video, android twitter download',
-    openGraph: {
-      title,
-      description,
-      type: 'website',
-      locale: locale === 'zh' ? 'zh_CN' : 'en_US',
-      siteName: 'TwitterXDownload',
-      images: [{ url: '/mobile-twitter-download-og.jpg', width: 1200, height: 630, alt: title }]
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title,
-      description,
-      images: ['/mobile-twitter-download-og.jpg']
-    },
-    robots: { index: true, follow: true },
-    alternates: { canonical: `/${locale}/landing/mobile-video-download/` }
-  };
+  return generateSEOMetadata({
+    page: 'mobile-video-download',
+    locale: locale,
+    pathname: `/${locale}/landing/mobile-video-download/`
+  });
 }
 
 export default async function MobileVideoDownloadLanding({ params: { locale } }) {

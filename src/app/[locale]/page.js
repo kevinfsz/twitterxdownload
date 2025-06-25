@@ -37,6 +37,7 @@ export default async function Home({ params: { locale } }) {
 
   return (
     <>
+      <StructuredData locale={locale} pageType="homepage" />
       <div className="page-container">
         <div className="section">
           <Hero locale={locale} remainApiCount={remainApiCount} onDownload={async (url) => {
@@ -47,7 +48,7 @@ export default async function Home({ params: { locale } }) {
         {process.env.NEXT_PUBLIC_HOME_LISTING != 0 && (
         <>
           <div className="section">
-            <h3 className="text-2xl font-bold px-2 py-4">{t('Hot Creators')}</h3>
+            <h2 className="text-3xl font-bold px-2 py-4">{t('Featured Content Creators')}</h2>
             <HotCreators locale={locale} />
           </div>
           <div className="section">
@@ -56,20 +57,112 @@ export default async function Home({ params: { locale } }) {
         </>
         )}
         <div className="section">
-          <h3 className="text-2xl font-bold px-2 py-4">{t('Download Twitter video and all content')}</h3>
-          <div className="px-2">
-            <p>
-              {t('TwitterXDownload is an online web app to download twitter videos and all content to your computer directly. Twitter videos and Twitter GIFs are embedded in the tweet, so to download twitter videos online, you need to copy the tweet URL/link and paste it in the above text box. Our Twitter X download service will extract the twitter to mp4 link from the tweet and you can save twitter videos to your computer.')}
-            </p>
+          <h2 className="text-3xl font-bold px-2 py-6">{t('How to Download Twitter Videos - 3 Easy Steps')}</h2>
+          <div className="px-2 mb-8">
+            <div className="grid md:grid-cols-3 gap-6">
+              <div className="text-center p-4">
+                <div className="w-12 h-12 bg-blue-500 text-white rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">1</div>
+                <h3 className="font-semibold mb-2">{t('Copy Twitter URL')}</h3>
+                <p className="text-sm text-gray-600">{t('Copy the Twitter post URL containing the video you want to download')}</p>
+              </div>
+              <div className="text-center p-4">
+                <div className="w-12 h-12 bg-green-500 text-white rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">2</div>
+                <h3 className="font-semibold mb-2">{t('Paste & Click Download')}</h3>
+                <p className="text-sm text-gray-600">{t('Paste the URL in our tool and click the download button')}</p>
+              </div>
+              <div className="text-center p-4">
+                <div className="w-12 h-12 bg-purple-500 text-white rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">3</div>
+                <h3 className="font-semibold mb-2">{t('Save Video')}</h3>
+                <p className="text-sm text-gray-600">{t('Choose quality and save the Twitter video to your device')}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="section">
+          <h2 className="text-3xl font-bold px-2 py-4">{t('Key Features & Benefits')}</h2>
+          <div className="px-2 mb-6">
+            <div className="grid md:grid-cols-2 gap-6">
+              <div className="space-y-4">
+                <div className="flex items-start space-x-3">
+                  <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center mt-1">
+                    <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold">{t('Free & No Registration')}</h3>
+                    <p className="text-sm text-gray-600">{t('Download Twitter videos completely free without creating an account')}</p>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-3">
+                  <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center mt-1">
+                    <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold">{t('HD Quality Downloads')}</h3>
+                    <p className="text-sm text-gray-600">{t('Download Twitter videos in original HD quality without watermarks')}</p>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-3">
+                  <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center mt-1">
+                    <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold">{t('All Devices Supported')}</h3>
+                    <p className="text-sm text-gray-600">{t('Works perfectly on iPhone, Android, PC, Mac and all browsers')}</p>
+                  </div>
+                </div>
+              </div>
+              <div className="space-y-4">
+                <div className="flex items-start space-x-3">
+                  <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center mt-1">
+                    <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold">{t('Fast & Secure')}</h3>
+                    <p className="text-sm text-gray-600">{t('Lightning-fast downloads with secure HTTPS encryption')}</p>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-3">
+                  <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center mt-1">
+                    <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold">{t('Multiple Formats')}</h3>
+                    <p className="text-sm text-gray-600">{t('Support MP4, GIF and image formats from Twitter posts')}</p>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-3">
+                  <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center mt-1">
+                    <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold">{t('No Software Installation')}</h3>
+                    <p className="text-sm text-gray-600">{t('Browser-based tool - no apps or software installation required')}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
         {/* 专业工具推荐区域 */}
         <div className="section bg-gray-50 dark:bg-gray-900">
           <div className="px-4 py-8">
-            <h3 className="text-2xl font-bold text-center mb-8">
+            <h2 className="text-3xl font-bold text-center mb-8">
               {isChinese(locale) ? '专业下载工具' : 'Professional Download Tools'}
-            </h3>
+            </h2>
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
               <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg text-center">
                 <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -138,7 +231,7 @@ export default async function Home({ params: { locale } }) {
           </div>
         </div>
         <div className="section">
-          <h3 className="text-2xl font-bold px-2 py-4">{t('Frequently Asked Questions')}</h3>
+          <h2 className="text-3xl font-bold px-2 py-4">{t('Frequently Asked Questions')}</h2>
           <FAQ locale={locale} />
         </div>
       </div>

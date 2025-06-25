@@ -4,60 +4,14 @@ import FAQ from '@/app/components/ui/FAQ';
 import StructuredData from '@/app/components/StructuredData';
 import { redirect } from 'next/navigation';
 import { headers } from 'next/headers';
+import { generateSEOMetadata } from '@/lib/seo';
 
 export async function generateMetadata({ params: { locale } }) {
-  const t = function (key) {
-    return getTranslation(locale, key);
-  };
-
-  const title = locale === 'zh' 
-    ? 'Twitter GIF下载器 - 免费下载推特GIF动图 | TwitterXDownload'
-    : 'Twitter GIF Downloader - Free Download Twitter GIFs | TwitterXDownload';
-  
-  const description = locale === 'zh'
-    ? '专业的Twitter GIF下载工具，支持下载推特GIF动图、视频和图片。高质量，快速下载，支持所有设备使用。'
-    : 'Professional Twitter GIF downloader tool for downloading Twitter GIFs, videos, and images. High quality, fast downloads, works on all devices.';
-
-  return {
-    title,
-    description,
-    keywords: locale === 'zh' 
-      ? 'Twitter GIF下载,推特GIF下载器,下载Twitter动图,Twitter动图保存,推特GIF下载工具'
-      : 'twitter gif download, twitter gif downloader, download twitter gif, save twitter gif, twitter gif download tool',
-    openGraph: {
-      title,
-      description,
-      type: 'website',
-      locale: locale === 'zh' ? 'zh_CN' : 'en_US',
-      siteName: 'TwitterXDownload',
-      images: [{
-        url: '/twitter-gif-download-og.jpg',
-        width: 1200,
-        height: 630,
-        alt: title
-      }]
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title,
-      description,
-      images: ['/twitter-gif-download-og.jpg']
-    },
-    robots: {
-      index: true,
-      follow: true,
-      googleBot: {
-        index: true,
-        follow: true,
-        'max-video-preview': -1,
-        'max-image-preview': 'large',
-        'max-snippet': -1,
-      },
-    },
-    alternates: {
-      canonical: `/${locale}/landing/twitter-gif-download/`
-    }
-  };
+  return generateSEOMetadata({
+    page: 'twitter-gif-download',
+    locale: locale,
+    pathname: `/${locale}/landing/twitter-gif-download/`
+  });
 }
 
 export default async function TwitterGifDownloadLanding({ params: { locale } }) {

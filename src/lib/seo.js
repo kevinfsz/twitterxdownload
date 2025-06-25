@@ -3,11 +3,11 @@ import { getTranslation } from './i18n';
 
 const baseUrl = 'https://ai-xdownload.xyz';
 
-// 默认SEO配置
+// 默认SEO配置 - 按用户建议优化
 const defaultSEO = {
-  title: 'TwitterXDownload - Free Twitter Video Downloader',
-  description: 'Download Twitter videos and media content for free. No registration required. Fast and easy Twitter video downloader. Twitter Media Saver. Twitter X Download.',
-  keywords: 'twitter downloader, x video downloader, twitter video download, x.com downloader, twitter gif download, social media downloader',
+  title: 'Twitter Video Downloader | Free HD X Video Download Tool',
+  description: 'Download Twitter/X videos, GIFs & images FREE. HD quality, no watermark. Works on iPhone, Android, PC. Fast, secure Twitter video downloader. Try now!',
+  keywords: 'twitter video downloader, download twitter video, x video downloader, twitter video to mp4 hd, twitter video downloader no watermark, free twitter video downloader',
   author: 'TwitterXDownload Team',
   robots: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
   ogImage: '/images/og-image.png',
@@ -17,9 +17,9 @@ const defaultSEO = {
 // 页面特定的SEO配置
 const pageSEOConfig = {
   homepage: {
-    title: 'TwitterXDownload - Free Twitter Video Downloader Online',
-    description: 'Download Twitter videos, GIFs and images for free. Fast, reliable and secure Twitter video downloader. No registration required. Works on all devices.',
-    keywords: 'twitter video downloader, download twitter videos, x video download, twitter gif downloader, social media downloader, free video downloader'
+    title: 'Twitter Video Downloader | Free HD X Video Download Tool',
+    description: 'Download Twitter/X videos, GIFs & images FREE. HD quality, no watermark. Works on iPhone, Android, PC. Fast, secure Twitter video downloader. Try now!',
+    keywords: 'twitter video downloader, download twitter video, x video downloader, download twitter videos iphone, twitter video to mp4 hd, twitter video downloader no watermark, free twitter video downloader, twitter gif downloader, x video download online'
   },
   
   downloader: {
@@ -35,27 +35,27 @@ const pageSEOConfig = {
   },
   
   'twitter-video-downloader': {
-    title: 'Twitter Video Downloader - Best Free Tool 2024',
-    description: 'The best Twitter video downloader in 2024. Download Twitter videos in HD quality, fast processing, and 100% secure. Try our premium Twitter downloader now.',
-    keywords: 'best twitter video downloader, twitter video downloader 2024, hd twitter video download, premium twitter downloader'
+    title: 'Twitter Video Downloader | Save X Videos & GIFs HD',
+    description: 'Best Twitter video downloader 2024. Download Twitter videos FREE in HD quality, no watermark. Works on iPhone, Android, PC. Fast & secure. Try now!',
+    keywords: 'twitter video downloader, best twitter video downloader, twitter video downloader 2024, hd twitter video download, twitter video downloader no watermark, free twitter video downloader'
   },
   
   'x-video-download': {
-    title: 'X Video Download - Download X.com Videos Free',
-    description: 'Download videos from X.com (formerly Twitter) quickly and easily. Our X video downloader supports all video formats and qualities. Free and secure.',
-    keywords: 'x video download, x.com video downloader, download x videos, x video saver, x media downloader'
+    title: 'X Video Download | Free X.com Video Downloader HD',
+    description: 'Download X.com videos FREE in HD quality, no watermark. Works on iPhone, Android, PC. Fast X video downloader, no registration required. Try now!',
+    keywords: 'x video download, x video downloader, x.com video downloader, download x videos, x video saver, x media downloader, free x video download'
   },
   
   'twitter-gif-download': {
-    title: 'Twitter GIF Downloader - Download Twitter GIFs Free',
-    description: 'Download Twitter GIFs and animated images for free. High-quality GIF downloader for Twitter. Save your favorite Twitter GIFs instantly.',
-    keywords: 'twitter gif downloader, download twitter gifs, twitter gif saver, animated twitter images, twitter gif download free'
+    title: 'Twitter GIF Downloader | Save X GIFs Free HD',
+    description: 'Download Twitter GIFs FREE in HD quality, no watermark. Works on iPhone, Android, PC. Fast Twitter GIF downloader, save animated images. Try now!',
+    keywords: 'twitter gif downloader, download twitter gifs, twitter gif download, twitter gif saver, animated twitter images, twitter gif download free'
   },
   
   'mobile-video-download': {
-    title: 'Mobile Twitter Video Downloader - Download on Phone',
-    description: 'Download Twitter videos on your mobile phone. Mobile-optimized Twitter video downloader for iOS and Android. Fast and easy mobile downloads.',
-    keywords: 'mobile twitter video downloader, download twitter videos on phone, mobile video downloader, twitter downloader app, ios android twitter downloader'
+    title: 'Mobile Twitter Downloader | iPhone Android Video Save',
+    description: 'Download Twitter videos FREE on iPhone & Android. Mobile-optimized downloader, HD quality, no watermark. Fast mobile downloads, no app needed. Try now!',
+    keywords: 'mobile twitter video downloader, download twitter videos iphone, download twitter videos android, mobile video downloader, twitter downloader app, ios android twitter downloader'
   },
   
   'about-us': {
@@ -74,20 +74,57 @@ const pageSEOConfig = {
     title: 'Terms of Service - TwitterXDownload',
     description: 'TwitterXDownload terms of service and usage guidelines. Read our terms and conditions for using our free Twitter video downloader.',
     keywords: 'terms of service, usage terms, twitter downloader terms, service agreement'
+  },
+
+  // Guides页面配置
+  'how-to-download-twitter-videos-hd': {
+    title: 'How to Download Twitter Videos HD | Free High Quality Guide',
+    description: 'Complete guide to download Twitter videos in HD quality FREE. Support 4K, 1080p, 720p formats. Works on iPhone, Android, PC. No watermark. Try now!',
+    keywords: 'how to download twitter videos hd, twitter video download hd, high quality twitter video, 4k twitter video download, 1080p twitter download, hd twitter video downloader'
+  },
+
+  'twitter-video-downloader-no-watermark': {
+    title: 'Twitter Video Downloader No Watermark | Free Brand-Free',
+    description: 'Best no-watermark Twitter video downloader. Download Twitter/X videos completely brand-free. Support HD quality, works on all devices, safe and reliable.',
+    keywords: 'no watermark twitter video download, twitter video downloader no watermark, remove watermark twitter video, brand free download, free twitter download'
+  },
+
+  'download-twitter-videos-iphone': {
+    title: 'Download Twitter Videos iPhone | iOS Video Save Guide',
+    description: 'Complete guide to download Twitter videos on iPhone FREE. iOS-optimized downloader, HD quality, no app needed. Works with Safari. Try now!',
+    keywords: 'download twitter videos iphone, iphone twitter video download, ios twitter downloader, twitter video save iphone, iphone x video download'
+  },
+
+  'download-twitter-videos-android': {
+    title: 'Download Twitter Videos Android | Mobile Video Guide',
+    description: 'Download Twitter videos on Android FREE. Mobile-optimized guide for all Android devices. HD quality, no watermark, no app required. Try now!',
+    keywords: 'download twitter videos android, android twitter video download, mobile twitter downloader, android x video download, twitter video save android'
+  },
+
+  'best-twitter-video-downloader-2024': {
+    title: 'Best Twitter Video Downloader 2024 | Free HD No Watermark',
+    description: 'Top-rated Twitter video downloader for 2024. Download 4K/HD videos, no watermarks, completely free. Compatible with iPhone, Android, PC.',
+    keywords: 'best twitter video downloader 2024, top twitter downloader, free twitter video download, HD no watermark, best X video downloader'
+  },
+
+  'resources': {
+    title: 'Twitter Video Download Resources | Tools & Tutorials Hub',
+    description: 'Complete Twitter video download resource library: free tools, detailed tutorials, pro tips, FAQ. Everything you need for Twitter video downloads.',
+    keywords: 'twitter video download resources, twitter downloader tools, video download tutorials, twitter tips, social media downloader guide'
   }
 };
 
 // 语言特定的SEO配置
 const languageSEOConfig = {
   zh: {
-    title: 'TwitterXDownload - 免费Twitter视频下载器',
-    description: '免费下载Twitter视频和媒体内容。无需注册，快速简单的Twitter视频下载器。支持所有设备，安全可靠。',
+    title: 'Twitter视频下载器 | 免费高清X视频下载工具',
+    description: '免费下载Twitter/X视频、GIF和图片。高清画质，无水印，支持iPhone、Android、PC全平台。快速安全，立即体验！',
     keywords: '推特视频下载器, twitter视频下载, x视频下载, 推特下载工具, 社交媒体下载器, 免费视频下载'
   },
   
   'zh-CN': {
-    title: 'TwitterXDownload - 免费Twitter视频下载器',
-    description: '专业的Twitter视频下载工具，支持高清视频下载。粘贴链接即可下载，支持MP4、GIF等格式。100%免费安全。',
+    title: 'Twitter视频下载器 | 免费高清X视频下载工具',
+    description: '专业Twitter视频下载工具，支持高清视频下载。粘贴链接即可下载，支持MP4、GIF等格式。100%免费安全，无需注册。',
     keywords: '推特视频下载器, twitter视频下载, x视频下载, 推特下载工具, 高清视频下载, 免费下载器'
   },
   

@@ -4,60 +4,14 @@ import FAQ from '@/app/components/ui/FAQ';
 import StructuredData from '@/app/components/StructuredData';
 import { redirect } from 'next/navigation';
 import { headers } from 'next/headers';
+import { generateSEOMetadata } from '@/lib/seo';
 
 export async function generateMetadata({ params: { locale } }) {
-  const t = function (key) {
-    return getTranslation(locale, key);
-  };
-
-  const title = isChinese(locale) 
-    ? 'X视频下载器 - 免费下载X平台视频和GIF | TwitterXDownload'
-    : 'X Video Downloader - Free Download X Platform Videos & GIFs | TwitterXDownload';
-  
-  const description = isChinese(locale)
-    ? '专业的X视频下载工具，支持下载X平台（前Twitter）视频、GIF和图片。高清质量，快速下载，支持所有格式。'
-    : 'Professional X video downloader tool for downloading X platform (formerly Twitter) videos, GIFs, and images. HD quality, fast downloads, support all formats.';
-
-  return {
-    title,
-    description,
-    keywords: isChinese(locale) 
-      ? 'X视频下载,X视频下载器,下载X视频,X平台视频下载,X.com视频下载'
-      : 'x video download, x video downloader, download x video, x platform video download, x.com video download',
-    openGraph: {
-      title,
-      description,
-      type: 'website',
-      locale: isChinese(locale) ? 'zh_CN' : 'en_US',
-      siteName: 'TwitterXDownload',
-      images: [{
-        url: '/x-video-download-og.jpg',
-        width: 1200,
-        height: 630,
-        alt: title
-      }]
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title,
-      description,
-      images: ['/x-video-download-og.jpg']
-    },
-    robots: {
-      index: true,
-      follow: true,
-      googleBot: {
-        index: true,
-        follow: true,
-        'max-video-preview': -1,
-        'max-image-preview': 'large',
-        'max-snippet': -1,
-      },
-    },
-    alternates: {
-      canonical: `/${locale}/landing/x-video-download/`
-    }
-  };
+  return generateSEOMetadata({
+    page: 'x-video-download',
+    locale: locale,
+    pathname: `/${locale}/landing/x-video-download/`
+  });
 }
 
 export default async function XVideoDownloadLanding({ params: { locale } }) {

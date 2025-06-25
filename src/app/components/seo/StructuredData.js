@@ -3,7 +3,7 @@
 
 import { usePathname } from 'next/navigation';
 
-export default function StructuredData({ locale = 'en', pageType = 'website' }) {
+export default function StructuredData({ locale = 'en', pageType = 'website', data = null }) {
   const pathname = usePathname();
   
   // 基础网站数据
@@ -139,9 +139,93 @@ export default function StructuredData({ locale = 'en', pageType = 'website' }) 
     "itemListElement": getBreadcrumbItems(pathname, locale)
   };
 
+  // 生成视频结构化数据
+  const getVideoData = (videoInfo) => ({
+    "@context": "https://schema.org",
+    "@type": "VideoObject",
+    "name": videoInfo.title || "Twitter Video",
+    "description": videoInfo.description || "Downloaded from Twitter/X platform",
+    "thumbnailUrl": videoInfo.thumbnail,
+    "uploadDate": videoInfo.uploadDate || new Date().toISOString(),
+    "duration": videoInfo.duration,
+    "contentUrl": videoInfo.url,
+    "embedUrl": videoInfo.embedUrl,
+    "publisher": {
+      "@type": "Organization",
+      "name": "TwitterXDownload"
+    }
+  });
+
+  // 生成文章结构化数据
+  const getArticleData = (articleInfo) => ({
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": articleInfo.title,
+    "description": articleInfo.description,
+    "image": articleInfo.image,
+    "datePublished": articleInfo.datePublished || new Date().toISOString(),
+    "dateModified": articleInfo.dateModified || new Date().toISOString(),
+    "author": {
+      "@type": "Organization",
+      "name": "TwitterXDownload"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "TwitterXDownload",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://ai-xdownload.xyz/images/logo.png"
+      }
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": `https://ai-xdownload.xyz${pathname}`
+    }
+  });
+
+  // 生成HowTo结构化数据
+  const getHowToData = (howToInfo) => ({
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": howToInfo.name,
+    "description": howToInfo.description,
+    "image": howToInfo.image,
+    "totalTime": howToInfo.totalTime || "PT5M",
+    "estimatedCost": {
+      "@type": "MonetaryAmount",
+      "currency": "USD",
+      "value": "0"
+    },
+    "supply": howToInfo.supply || [
+      {
+        "@type": "HowToSupply",
+        "name": "Internet Connection"
+      },
+      {
+        "@type": "HowToSupply", 
+        "name": "Web Browser"
+      }
+    ],
+    "tool": howToInfo.tool || [
+      {
+        "@type": "HowToTool",
+        "name": "TwitterXDownload"
+      }
+    ],
+    "step": howToInfo.steps || []
+  });
+
   // 根据页面类型返回相应的结构化数据
   const getStructuredData = () => {
     const baseData = [websiteData, organizationData];
+    
+    // 如果传入了自定义数据，优先使用
+    if (data) {
+      if (data.video) baseData.push(getVideoData(data.video));
+      if (data.article) baseData.push(getArticleData(data.article));
+      if (data.howTo) baseData.push(getHowToData(data.howTo));
+      if (data.custom) baseData.push(...data.custom);
+    }
     
     switch (pageType) {
       case 'homepage':
@@ -150,6 +234,10 @@ export default function StructuredData({ locale = 'en', pageType = 'website' }) 
         return [...baseData, softwareData, serviceData, breadcrumbData];
       case 'landing':
         return [...baseData, serviceData, faqData, breadcrumbData];
+      case 'article':
+        return [...baseData, serviceData, breadcrumbData];
+      case 'guide':
+        return [...baseData, serviceData, breadcrumbData];
       case 'about':
         return [...baseData, breadcrumbData];
       default:
