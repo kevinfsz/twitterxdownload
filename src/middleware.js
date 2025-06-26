@@ -6,6 +6,12 @@ export function middleware(request) {
   const pathname = request.nextUrl.pathname;
   console.log('Current pathname:', pathname);
 
+  // 特殊处理：直接跳过sitemap文件
+  if (pathname === '/sitemap.xml' || pathname === '/sitemap_static.xml' || pathname === '/robots.txt') {
+    console.log('Skipping middleware for sitemap/robots file:', pathname);
+    return NextResponse.next();
+  }
+
   // 检查路径是否已经包含语言代码
   const pathnameHasLocale = Object.keys(locales).map(locale => `/${locale}`).some(
     (localePath) => pathname.startsWith(localePath)
