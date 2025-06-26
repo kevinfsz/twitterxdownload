@@ -42,7 +42,9 @@ Allow: /*.gif$
 Allow: /*.svg$
 Allow: /*.ico$
 
-# Sitemap位置
+# Sitemap位置 - 使用动态sitemap获取最新内容
+Sitemap: https://ai-xdownload.xyz/sitemap.xml
+# 静态备份sitemap
 Sitemap: https://ai-xdownload.xyz/sitemap_static.xml
 
 # 爬取延迟设置（避免服务器过载）
