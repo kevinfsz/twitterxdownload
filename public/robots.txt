@@ -43,7 +43,7 @@ Allow: /*.svg$
 Allow: /*.ico$
 
 # Sitemap位置
-Sitemap: https://ai-xdownload.xyz/sitemap.xml
+Sitemap: https://ai-xdownload.xyz/sitemap_static.xml
 
 # 爬取延迟设置（避免服务器过载）
 Crawl-delay: 1
